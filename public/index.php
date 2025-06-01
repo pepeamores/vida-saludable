@@ -20,7 +20,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
-<body>
+
 
 <?php if (isset($_SESSION['nombre'])): ?>
     <div class="dropdown position-fixed top-0 end-0 m-3">
@@ -52,30 +52,47 @@ function calcularEdadDesdeTexto($fechaTexto) {
     </nav>
 </header>
 
-<section class="highlight d-flex flex-wrap justify-content-center align-items-center">
-    <?php if (isset($_SESSION['user_id'])): ?>
+
+
+<section class="interactive-sections">
+    <section class="highlight d-flex flex-wrap justify-content-center align-items-center">
+        <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-info text-start bg-white p-4 rounded shadow me-4" style="max-width: 300px;">
             <h4 class="text-success mb-3">👤 Tu perfil</h4>
+            <form method="POST" action="actualizar_datos.php" id="form-perfil">
             <p><strong>Nombre:</strong> <?= htmlspecialchars($_SESSION['nombre']) . ' ' . htmlspecialchars($_SESSION['apellidos']) ?></p>
             <p><strong>Edad:</strong> <?= isset($_SESSION['fecha_nacimiento']) ? calcularEdadDesdeTexto($_SESSION['fecha_nacimiento']) . ' años' : 'No especificada' ?></p>
-            <p><strong>Altura:</strong> <?= htmlspecialchars($_SESSION['altura']) ?> m</p>
-            <p><strong>Peso:</strong> <?= htmlspecialchars($_SESSION['peso']) ?> kg</p>
+
+            <div class="mb-2">
+                <label><strong>Altura:</strong></label>
+                <p id="texto-altura"><?= htmlspecialchars($_SESSION['altura']) ?> m</p>
+                <input type="number" step="0.01" name="altura" class="form-control d-none" value="<?= htmlspecialchars($_SESSION['altura']) ?>" required>
+            </div>
+
+            <div class="mb-2">
+                <label><strong>Peso:</strong></label>
+                <p id="texto-peso"><?= htmlspecialchars($_SESSION['peso']) ?> kg</p>
+                <input type="number" step="0.1" name="peso" class="form-control d-none" value="<?= htmlspecialchars($_SESSION['peso']) ?>" required>
+            </div>
+
             <p><strong>Sexo:</strong> <?= htmlspecialchars($_SESSION['sexo']) ?></p>
             <p><strong>Email:</strong> <?= htmlspecialchars($_SESSION['email']) ?></p>
             <p><strong>Usuario:</strong> <?= htmlspecialchars($_SESSION['usuario']) ?></p>
+
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-editar">✏️ Editar</button>
+            <button type="submit" class="btn btn-primary btn-sm d-none" id="btn-guardar">💾 Guardar</button>
+            </form>
         </div>
-    <?php endif; ?>
+        <?php endif; ?>
 
-    <img src="img/health.png" alt="Vida saludable" class="img-fluid" style="max-width: 400px; border-radius: 10px;">
+        <img src="img/health.png" alt="Vida saludable" class="img-fluid" style="max-width: 400px; border-radius: 10px;">
 
-    <div class="highlight-text ms-4 mt-4 mt-md-0">
-        <h2>Vive Saludable Hoy</h2>
-        <p>La clave de una vida plena y larga es cuidar tanto del cuerpo como de la mente. Aquí aprenderás cómo hacerlo.</p>
-        <a href="pages/alimentacion.php" class="cta-button btn btn-success">Descubre Más</a>
-    </div>
-</section>
-
-<section class="interactive-sections">
+        <div class="highlight-text ms-4 mt-4 mt-md-0">
+            <h2>Vive Saludable Hoy</h2>
+            <p>La clave de una vida plena y larga es cuidar tanto del cuerpo como de la mente. Aquí aprenderás cómo hacerlo.</p>
+            <a href="pages/alimentacion.php" class="cta-button btn btn-success">Descubre Más</a>
+        </div>
+    </section>
     <div class="section-card">
         <img src="img/fitness.jpg" alt="Ejercicio Físico">
         <div class="card-content">
@@ -140,6 +157,18 @@ function calcularEdadDesdeTexto($fechaTexto) {
     document.getElementById('theme-toggle')?.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
     });
+    document.getElementById('btn-editar').addEventListener('click', function() {
+  // Ocultar los <p> y mostrar los <input>
+  document.querySelector('input[name="altura"]').classList.remove('d-none');
+  document.querySelector('input[name="peso"]').classList.remove('d-none');
+  document.getElementById('texto-altura').classList.add('d-none');
+  document.getElementById('texto-peso').classList.add('d-none');
+
+  // Cambiar botones
+  this.classList.add('d-none'); // Oculta el botón "Editar"
+  document.getElementById('btn-guardar').classList.remove('d-none');
+});
+
 </script>
 </body>
 </html>

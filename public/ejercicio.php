@@ -34,15 +34,15 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <body>
 
 <?php if (isset($_SESSION['nombre'])): ?>
-  <div class="dropdown position-fixed top-0 end-0 m-3">
-    <button class="btn btn-light dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-      <img src="img/pefil.png" width="32" height="32" class="rounded-circle me-2">
-      <?= htmlspecialchars($_SESSION['nombre']) ?>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item text-danger" href="../logout.php">Cerrar sesión</a></li>
-    </ul>
-  </div>
+    <div class="dropdown position-fixed top-0 end-0 m-3">
+        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+            <img src="img/pefil.png" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
+            <?= htmlspecialchars($_SESSION['nombre']) ?>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item text-danger" href="logout.php">Cerrar sesión</a></li>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <header class="header text-center">
@@ -153,6 +153,7 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <footer>
     <p>&copy; 2024 Vida Saludable. Todos los derechos reservados.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
