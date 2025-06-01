@@ -66,10 +66,10 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <section class="container my-5 text-center">
   <h2 class="mb-4">💪 Selecciona tu objetivo</h2>
   <div class="btn-group mb-4" role="group">
-    <button class="btn btn-outline-danger" onclick="mostrarRecomendacion('pérdida de peso')">📉 Pérdida de peso</button>
-    <button class="btn btn-outline-primary" onclick="mostrarRecomendacion('ganancia muscular')">🏋️ Ganancia muscular</button>
-    <button class="btn btn-outline-success" onclick="mostrarRecomendacion('tonificación')">🏋️ Tonificación</button>
-    <button class="btn btn-outline-warning" onclick="mostrarRecomendacion('movilidad y flexibilidad')">🧼 Movilidad y flexibilidad</button>
+    <button class="btn btn-dark" onclick="mostrarRecomendacion('pérdida de peso')">📉 Pérdida de peso</button>
+    <button class="btn btn-secondary" onclick="mostrarRecomendacion('ganancia muscular')">🏋️ Ganancia muscular</button>
+    <button class="btn btn-light text-dark" onclick="mostrarRecomendacion('tonificación')">🏋️ Tonificación</button>
+    <button class="btn btn-info text-white" onclick="mostrarRecomendacion('movilidad y flexibilidad')">🧼 Movilidad y flexibilidad</button>
   </div>
   <div class="mb-3">
     <label for="filtro-nivel" class="form-label">Filtrar por nivel:</label>
