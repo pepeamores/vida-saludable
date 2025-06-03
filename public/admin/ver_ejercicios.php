@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require_once __DIR__ . '/../../autoload.php';
 use MongoDB\Client;
 
 $client = new Client("mongodb+srv://usuario1:arshak2003@proyectomongo.vfdni.mongodb.net/");
@@ -12,14 +12,17 @@ $ejercicios = $db->ejercicios->find();
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Ver Ejercicios - Admin</title>  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Ver Ejercicios - Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../style/style.css">
 </head>
 <body class="bg-light">
+
 <!-- Botón Volver -->
 <div class="position-fixed top-0 start-0 m-3">
   <a href="admin.php" class="btn btn-primary">Volver</a>
 </div>
+
 <?php if (isset($_SESSION['nombre'])): ?>
   <div class="dropdown position-fixed top-0 end-0 m-3">
     <button class="btn btn-light dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
@@ -34,11 +37,11 @@ $ejercicios = $db->ejercicios->find();
 
 <header class="header text-center">
   <div class="header-content">
-    <h1>Ejercicios Guardadas</h1>
+    <h1>Ejercicios Guardados</h1>
     <p>Visualiza y gestiona todos los ejercicios creados en Vida Saludable.</p>
-
   </div>
 </header>
+
 <div class="container py-5">
   <h2 class="mb-4 text-center">🏋️‍♂️ Todos los Ejercicios Registrados</h2>
 
@@ -73,5 +76,6 @@ $ejercicios = $db->ejercicios->find();
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Vida Saludable</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
 
@@ -26,9 +26,9 @@ if (!isset($_SESSION['user_id'])) {
 
     <nav>
         <ul>
-            <li><a href="pages/alimentacion.php">Alimentación Saludable</a></li>
-            <li><a href="pages/ejercicio.php">Ejercicio Físico</a></li>
-            <li><a href="pages/salud_mental.php">Salud Mental</a></li>
+            <li><a href="../pages/alimentacion.php">Alimentación Saludable</a></li>
+            <li><a href="../pages/ejercicio.php">Ejercicio Físico</a></li>
+            <li><a href="../pages/salud_mental.php">Salud Mental</a></li>
         </ul>
     </nav>
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require_once __DIR__ . '/../../autoload.php';
 use MongoDB\Client;
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
@@ -30,10 +30,12 @@ foreach ($ejerciciosCol->find() as $e) {
   <link rel="stylesheet" href="../style/style.css">
 </head>
 <body class="bg-light">
+
 <!-- Botón Volver -->
 <div class="position-fixed top-0 start-0 m-3">
   <a href="admin.php" class="btn btn-primary">Volver</a>
 </div>
+
 <?php if (isset($_SESSION['nombre'])): ?>
   <div class="dropdown position-fixed top-0 end-0 m-3">
     <button class="btn btn-light dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
@@ -50,7 +52,6 @@ foreach ($ejerciciosCol->find() as $e) {
   <div class="header-content">
     <h1>Rutinas Guardadas</h1>
     <p>Visualiza y gestiona todas las rutinas creadas en Vida Saludable.</p>
-
   </div>
 </header>
 

@@ -1,6 +1,5 @@
 <?php
-
-require_once __DIR__ . '/../public/db.php';
+require_once __DIR__ . '/../config/db.php'; // ruta corregida a db.php
 use MongoDB\Client;
 
 $client = new Client("mongodb+srv://usuario1:arshak2003@proyectomongo.vfdni.mongodb.net/");
@@ -25,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'fecha_registro' => new MongoDB\BSON\UTCDateTime()
     ];
 
-    // Verificar si el usuario o email ya existen
     $existe = $usuarios->findOne([
         '$or' => [
             ['email' => $data['email']],
@@ -48,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Registro - Vida Saludable</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html, body {
@@ -95,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post">
         <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
         <input type="text" name="apellidos" class="form-control" placeholder="Apellidos" required>
-        <input type="date" name="fecha_nacimiento" class="form-control" placeholder="Fecha de nacimiento" required>
+        <input type="date" name="fecha_nacimiento" class="form-control" required>
         <input type="number" step="0.01" name="altura" class="form-control" placeholder="Altura (cm)" required>
         <input type="number" step="0.1" name="peso" class="form-control" placeholder="Peso (kg)" required>
         <select name="sexo" class="form-control" required>
@@ -113,12 +110,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<!-- Carrusel de fondo -->
 <script>
     const images = [
-        'img/fitness.jpg',
-        'img/yoga.jpg',
-        'img/comida.jpg'
+        '../img/fitness.jpg',
+        '../img/yoga.jpg',
+        '../img/comida.jpg'
     ];
 
     let index = 0;

@@ -18,18 +18,18 @@ function calcularEdadDesdeTexto($fechaTexto) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vida Saludable</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 
-
+<body>
 <?php if (isset($_SESSION['nombre'])): ?>
     <div class="dropdown position-fixed top-0 end-0 m-3">
         <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-            <img src="img/pefil.png" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
+            <img src="../img/pefil.png" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
             <?= htmlspecialchars($_SESSION['nombre']) ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item text-danger" href="logout.php">Cerrar sesión</a></li>
+            <li><a class="dropdown-item text-danger" href="/logout.php">Cerrar sesión</a></li>
         </ul>
     </div>
 <?php endif; ?>
@@ -45,21 +45,19 @@ function calcularEdadDesdeTexto($fechaTexto) {
 
     <nav class="main-nav">
         <ul>
-            <li><a href="alimentacion.php">Alimentación Saludable</a></li>
-            <li><a href="ejercicio.php">Ejercicio Físico</a></li>
-            <li><a href="pages/salud_mental.php">Salud Mental</a></li>
+            <li><a href="../pages/alimentacion.php">Alimentación Saludable</a></li>
+            <li><a href="../pages/ejercicio.php">Ejercicio Físico</a></li>
+            <li><a href="../pages/salud_mental.php">Salud Mental</a></li>
         </ul>
     </nav>
 </header>
 
-
-
 <section class="interactive-sections">
-    <section class="highlight d-flex flex-wrap justify-content-center align-items-center">
+    <section class=" as highlight d-flex flex-wrap justify-content-center align-items-center">
         <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-info text-start bg-white p-4 rounded shadow me-4" style="max-width: 300px;">
             <h4 class="text-success mb-3">👤 Tu perfil</h4>
-            <form method="POST" action="actualizar_datos.php" id="form-perfil">
+            <form method="POST" action="../config/actualizar_datos.php" id="form-perfil">
             <p><strong>Nombre:</strong> <?= htmlspecialchars($_SESSION['nombre']) . ' ' . htmlspecialchars($_SESSION['apellidos']) ?></p>
             <p><strong>Edad:</strong> <?= isset($_SESSION['fecha_nacimiento']) ? calcularEdadDesdeTexto($_SESSION['fecha_nacimiento']) . ' años' : 'No especificada' ?></p>
 
@@ -85,16 +83,17 @@ function calcularEdadDesdeTexto($fechaTexto) {
         </div>
         <?php endif; ?>
 
-        <img src="img/health.png" alt="Vida saludable" class="img-fluid" style="max-width: 400px; border-radius: 10px;">
+        <img src="../img/health.png" alt="Vida saludable" class="img-fluid" style="max-width: 400px; border-radius: 10px;">
 
         <div class="highlight-text ms-4 mt-4 mt-md-0">
             <h2>Vive Saludable Hoy</h2>
             <p>La clave de una vida plena y larga es cuidar tanto del cuerpo como de la mente. Aquí aprenderás cómo hacerlo.</p>
-            <a href="pages/alimentacion.php" class="cta-button btn btn-success">Descubre Más</a>
+            <a href="../pages/alimentacion.php" class="cta-button btn btn-success">Descubre Más</a>
         </div>
     </section>
+
     <div class="section-card">
-        <img src="img/fitness.jpg" alt="Ejercicio Físico">
+        <img src="../img/fitness.jpg" alt="Ejercicio Físico">
         <div class="card-content">
             <h3>Ejercicio Físico</h3>
             <p>Conoce las mejores rutinas de ejercicio para mantenerte en forma.</p>
@@ -106,7 +105,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
     </div>
 
     <div class="section-card">
-        <img src="img/yoga.jpg" alt="Salud Mental">
+        <img src="../img/yoga.jpg" alt="Salud Mental">
         <div class="card-content">
             <h3>Salud Mental</h3>
             <p>Aprende técnicas para cuidar de tu bienestar mental y emocional.</p>
@@ -118,12 +117,10 @@ function calcularEdadDesdeTexto($fechaTexto) {
     </div>
 </section>
 
-
-
 <?php if (isset($_SESSION['user_id'])): ?>
 <section class="container my-5">
   <h3 class="text-center mb-4">📈 Danos tu opinión</h3>
-  <form method="post" action="guardar_opinion.php" class="bg-white p-4 rounded shadow-sm">
+  <form method="post" action="../config/guardar_opinion.php" class="bg-white p-4 rounded shadow-sm">
     <div class="mb-3">
       <label class="form-label">Valoración general (1 a 10)</label>
       <input type="number" name="puntuacion" min="1" max="10" class="form-control" required>
@@ -136,6 +133,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
   </form>
 </section>
 <?php endif; ?>
+
 <section class="testimonials">
     <h2>Testimonios</h2>
     <div id="testimony-slider">
@@ -143,6 +141,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
         <p class="testimony-author">- Ana Pérez</p>
     </div>
 </section>
+
 <footer>
     <p>&copy; 2024 Vida Saludable. Todos los derechos reservados.</p>
 </footer>
@@ -157,18 +156,16 @@ function calcularEdadDesdeTexto($fechaTexto) {
     document.getElementById('theme-toggle')?.addEventListener('click', () => {
         document.body.classList.toggle('dark-theme');
     });
-    document.getElementById('btn-editar').addEventListener('click', function() {
-  // Ocultar los <p> y mostrar los <input>
-  document.querySelector('input[name="altura"]').classList.remove('d-none');
-  document.querySelector('input[name="peso"]').classList.remove('d-none');
-  document.getElementById('texto-altura').classList.add('d-none');
-  document.getElementById('texto-peso').classList.add('d-none');
 
-  // Cambiar botones
-  this.classList.add('d-none'); // Oculta el botón "Editar"
-  document.getElementById('btn-guardar').classList.remove('d-none');
-});
+    document.getElementById('btn-editar')?.addEventListener('click', function() {
+        document.querySelector('input[name="altura"]').classList.remove('d-none');
+        document.querySelector('input[name="peso"]').classList.remove('d-none');
+        document.getElementById('texto-altura').classList.add('d-none');
+        document.getElementById('texto-peso').classList.add('d-none');
 
+        this.classList.add('d-none');
+        document.getElementById('btn-guardar').classList.remove('d-none');
+    });
 </script>
 </body>
 </html>

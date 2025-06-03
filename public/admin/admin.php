@@ -9,8 +9,9 @@ if (!function_exists('array_is_list')) {
     }
 }
 
-require '../autoload.php';
+require_once __DIR__ . '/../../autoload.php';
 use MongoDB\Client;
+
 
 // Verificar acceso solo admin
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
@@ -18,6 +19,7 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
     exit;
 }
 
+// Conexión
 $client = new Client("mongodb+srv://usuario1:arshak2003@proyectomongo.vfdni.mongodb.net/");
 $db = $client->vida_saludable;
 
@@ -26,50 +28,40 @@ $totalRutinas = $db->rutinas->countDocuments();
 $totalEjercicios = $db->ejercicios->countDocuments();
 $totalRegistrosCalendario = $db->calendario->countDocuments();
 
+// Activos esta semana
 $fechaInicioSemana = (new DateTime())->modify('monday this week')->format('Y-m-d');
-$usuariosActivosSemana = $db->calendario->distinct('usuario_id', [
-    'semana_inicio' => ['$gte' => $fechaInicioSemana]
-]);
+$usuariosActivosSemana = $db->calendario->distinct('usuario_id', ['semana_inicio' => ['$gte' => $fechaInicioSemana]]);
 $usuariosActivosCount = count($usuariosActivosSemana);
 
-$fechaMesAtras = new MongoDB\BSON\UTCDateTime((new DateTime('-1 month'))->getTimestamp() * 1000);
+// Nuevos en el último mes
+$fechaMesAtras = (new DateTime('-1 month'))->format(DateTime::ATOM); // ISO 8601
 
+// En la consulta:
 $usuariosNuevos = $db->usuarios->countDocuments([
     'fecha_creacion' => ['$gte' => $fechaMesAtras]
 ]);
+// Promedio entrenamientos
 $totalEntrenamientos = 0;
 $usuariosUnicos = [];
-$calendarioDocs = $db->calendario->find();
-foreach ($calendarioDocs as $registro) {
-    $usuarioId = $registro['usuario_id'];
-    $usuariosUnicos[$usuarioId] = true;
+foreach ($db->calendario->find() as $registro) {
+    $usuariosUnicos[$registro['usuario_id']] = true;
     foreach ($registro['dias'] as $dia) {
-        if (isset($dia['entrenado']) && $dia['entrenado']) {
-            $totalEntrenamientos++;
-        }
+        if (!empty($dia['entrenado'])) $totalEntrenamientos++;
     }
 }
 $promedioEntrenamientos = $totalEntrenamientos > 0 ? round($totalEntrenamientos / max(count($usuariosUnicos), 1), 2) : 0;
 
+// Inactivos
 $fechaLimite = (new DateTime())->modify('-14 days')->format('Y-m-d');
-$usuariosConActividad = $db->calendario->distinct('usuario_id', [
-    'semana_inicio' => ['$gte' => $fechaLimite]
-]);
+$usuariosConActividad = $db->calendario->distinct('usuario_id', ['semana_inicio' => ['$gte' => $fechaLimite]]);
 $usuariosTotales = $db->usuarios->distinct('_id');
 $usuariosInactivos = array_diff($usuariosTotales, $usuariosConActividad);
 $usuariosInactivosCount = count($usuariosInactivos);
 
-// Opiniones
+// Opiniones y media
 $opinionesCursor = $db->opiniones->find([], ['sort' => ['fecha' => -1]]);
-$opiniones = iterator_to_array($opinionesCursor, false);
-
-// Calcular promedio de valoraciones
-$totalOpiniones = count($opiniones);
-$sumaNotas = 0;
-foreach ($opiniones as $op) {
-    $sumaNotas += $op['puntuacion'];
-}
-$mediaOpiniones = $totalOpiniones > 0 ? round($sumaNotas / $totalOpiniones, 2) : 0;
+$opiniones = iterator_to_array($opinionesCursor);
+$mediaOpiniones = count($opiniones) > 0 ? round(array_sum(array_column($opiniones, 'puntuacion')) / count($opiniones), 2) : 0;
 ?>
 
 <!DOCTYPE html>
@@ -99,70 +91,32 @@ $mediaOpiniones = $totalOpiniones > 0 ? round($sumaNotas / $totalOpiniones, 2) :
 
   <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
     <a href="crear_ejercicios.php" class="btn btn-success">➕ Crear Ejercicio</a>
-    <a href="crear_rutina.php" class="btn btn-primary">📝 Crear Rutina</a>
+    <a href="../admin/crear_rutina.php" class="btn btn-primary">📝 Crear Rutina</a>
     <a href="ver_ejercicios.php" class="btn btn-warning">📋 Ver Ejercicios</a>
     <a href="ver_rutinas.php" class="btn btn-info">📋 Ver Rutinas</a>
   </div>
 
   <div class="row text-center">
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>👥 Total Usuarios</h5>
-        <p class="display-6"><?= $totalUsuarios ?></p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>📚 Total Rutinas</h5>
-        <p class="display-6"><?= $totalRutinas ?></p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>💪 Total Ejercicios</h5>
-        <p class="display-6"><?= $totalEjercicios ?></p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>📅 Entradas en Calendario</h5>
-        <p class="display-6"><?= $totalRegistrosCalendario ?></p>
-      </div>
-    </div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>👥 Total Usuarios</h5><p class="display-6"><?= $totalUsuarios ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>📚 Total Rutinas</h5><p class="display-6"><?= $totalRutinas ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>💪 Total Ejercicios</h5><p class="display-6"><?= $totalEjercicios ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>📅 Entradas en Calendario</h5><p class="display-6"><?= $totalRegistrosCalendario ?></p></div></div>
   </div>
 
   <div class="row text-center mt-4">
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>✅ Activos Esta Semana</h5>
-        <p class="display-6"><?= $usuariosActivosCount ?></p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>📈 Promedio Entrenamientos</h5>
-        <p class="display-6"><?= $promedioEntrenamientos ?></p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>⭐ Valoración Promedio de Usuarios</h5>
-        <p class="display-6"><?= $mediaOpiniones ?> / 10</p>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3">
-      <div class="card p-3 shadow-sm">
-        <h5>😴 Inactivos (14 días)</h5>
-        <p class="display-6"><?= $usuariosInactivosCount ?></p>
-      </div>
-    </div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>✅ Activos Esta Semana</h5><p class="display-6"><?= $usuariosActivosCount ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>📈 Promedio Entrenamientos</h5><p class="display-6"><?= $promedioEntrenamientos ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>⭐ Valoración Promedio</h5><p class="display-6"><?= $mediaOpiniones ?> / 10</p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>😴 Inactivos (14 días)</h5><p class="display-6"><?= $usuariosInactivosCount ?></p></div></div>
   </div>
+
   <div class="mt-5">
     <h3 class="text-center mb-4">💬 Opiniones de usuarios</h3>
     <div class="list-group">
       <?php foreach ($opiniones as $op): ?>
         <div class="list-group-item">
-          <h6><?= htmlspecialchars($op['nombre']) ?> <small class="text-muted">(<?= date('d/m/Y', $op['fecha']->toDateTime()->getTimestamp()) ?>)</small></h6>
+          <h6><?= htmlspecialchars($op['nombre']) ?>
+          <small class="text-muted">(<?= date('d/m/Y', $op['fecha']->toDateTime()->getTimestamp()) ?>)</small></h6>
           <p class="mb-1">📈 Valoración: <strong><?= $op['puntuacion'] ?>/10</strong><br><?= htmlspecialchars($op['comentario']) ?></p>
         </div>
       <?php endforeach; ?>

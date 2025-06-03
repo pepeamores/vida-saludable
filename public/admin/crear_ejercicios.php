@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require '../../autoload.php';
 use MongoDB\Client;
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {

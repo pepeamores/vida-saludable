@@ -1,4 +1,5 @@
-<?php session_start(); 
+<?php 
+session_start(); 
 
 $recomendacionTexto = '';
 if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
@@ -36,11 +37,11 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <?php if (isset($_SESSION['nombre'])): ?>
     <div class="dropdown position-fixed top-0 end-0 m-3">
         <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-            <img src="img/pefil.png" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
+            <img src="../img/pefil.png" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
             <?= htmlspecialchars($_SESSION['nombre']) ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item text-danger" href="logout.php">Cerrar sesión</a></li>
+            <li><a class="dropdown-item text-danger" href="../config/logout.php">Cerrar sesión</a></li>
         </ul>
     </div>
 <?php endif; ?>
@@ -52,17 +53,19 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
   </div>
   <nav class="main-nav">
     <ul>
-      <li><a href="index.php">Inicio</a></li>            
+      <li><a href="../index.php">Inicio</a></li>            
       <li><a href="alimentacion.php">Alimentación Saludable</a></li>
-      <li><a href="pages/salud_mental.php">Salud Mental</a></li>
+      <li><a href="salud_mental.php">Salud Mental</a></li>
     </ul>
   </nav>
 </header>
+
 <?php if ($recomendacionTexto): ?>
   <div class="alert alert-info mx-auto" style="max-width: 700px;">
     <?= $recomendacionTexto ?>
   </div>
 <?php endif; ?>
+
 <section class="container my-5 text-center">
   <h2 class="mb-4">💪 Selecciona tu objetivo</h2>
   <div class="btn-group mb-4" role="group">
@@ -86,7 +89,7 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 
 <section class="container my-5">
   <h2 class="mb-4">🗓 Tu calendario de entrenamiento</h2>
-  <form method="post" action="guardar_calendario.php">
+  <form method="post" action="../config/guardar_calendario.php">
     <table class="table table-bordered table-hover bg-white shadow">
       <thead class="table-light">
         <tr><th>Día</th><th>¿Entrenaste?</th><th>¿Qué hiciste?</th></tr>
@@ -121,12 +124,13 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
   <h2 class="mb-4 text-center">📊 Análisis de tu Progreso</h2>
   <div class="row">
     <div class="col-md-6 mb-4">
-          <canvas id="graficaDiasSemana" width="100" height="75"></canvas>    </div>
+      <canvas id="graficaDiasSemana"></canvas>
+    </div>
     <div class="col-md-6 mb-4">
-      <canvas id="graficaTiposEntrenamiento" width="50" height="30"></canvas>
+      <canvas id="graficaTiposEntrenamiento"></canvas>
     </div>
     <div class="col-md-12">
-      <canvas id="graficaFrecuenciaDia" height="50"></canvas>
+      <canvas id="graficaFrecuenciaDia"></canvas>
     </div>
   </div>
 </section>
@@ -142,6 +146,7 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
     </div>
   </div>
 </div>
+
 <section class="testimonials">
     <h2>Testimonios</h2>
     <div id="testimony-slider">
@@ -153,11 +158,11 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <footer>
     <p>&copy; 2024 Vida Saludable. Todos los derechos reservados.</p>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+let objetivoSeleccionado = '';
+
 function mostrarRecomendacion(objetivo) {
   objetivoSeleccionado = objetivo;
   const nivel = document.getElementById('filtro-nivel').value;
@@ -170,6 +175,7 @@ function filtrarPorNivel() {
     cargarRutinas(objetivoSeleccionado, nivel);
   }
 }
+
 function mostrarModalEjercicio(nombre, descripcion, nivel, repeticiones, grupo_muscular, duracion, video) {
   const titulo = document.getElementById('modalEjercicioTitulo');
   const contenido = document.getElementById('modalEjercicioContenido');
@@ -181,16 +187,16 @@ function mostrarModalEjercicio(nombre, descripcion, nivel, repeticiones, grupo_m
     <p><strong>Grupo muscular:</strong> ${grupo_muscular}</p>
     <p><strong>Repeticiones:</strong> ${repeticiones}</p>
     <p><strong>Duración aproximada:</strong> ${duracion} minutos</p>
-      <div class="ratio ratio-16x9 mt-3">
+    <div class="ratio ratio-16x9 mt-3">
         <iframe src="${video}" title="Video del ejercicio" allowfullscreen></iframe>
-      </div>
+    </div>
   `;
 
-  const modal = new bootstrap.Modal(document.getElementById('modalEjercicio'));
-  modal.show();
+  new bootstrap.Modal(document.getElementById('modalEjercicio')).show();
 }
+
 function cargarRutinas(objetivo, nivel) {
-  let url = `cargar_rutinas.php?objetivo=${encodeURIComponent(objetivo)}`;
+  let url = `../config/cargar_rutinas.php?objetivo=${encodeURIComponent(objetivo)}`;
   if (nivel) url += `&nivel=${encodeURIComponent(nivel)}`;
   fetch(url).then(res => res.text()).then(html => {
     document.getElementById('rutinas-container').innerHTML = html;
@@ -199,7 +205,7 @@ function cargarRutinas(objetivo, nivel) {
 
 function mostrarGraficas() {
   document.getElementById('seccion-graficas').style.display = 'block';
-  fetch('datos_graficas.php').then(res => res.json()).then(data => {
+  fetch('../config/datos_graficas.php').then(res => res.json()).then(data => {
     new Chart(document.getElementById('graficaDiasSemana'), {
       type: 'bar',
       data: { labels: data.diasEntrenados.map(d => d.semana), datasets: [{
@@ -228,15 +234,6 @@ function mostrarGraficas() {
       options: { scales: { y: { beginAtZero: true } } }
     });
   });
-}
-
-function verEjercicio(id) {
-  fetch(`cargar_ejercicio.php?id=${id}`)
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById('modalEjercicioContenido').innerHTML = html;
-      new bootstrap.Modal(document.getElementById('modalEjercicio')).show();
-    });
 }
 </script>
 

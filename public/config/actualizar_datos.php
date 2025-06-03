@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../public/db.php';
+require_once __DIR__ . '/db.php';
 use MongoDB\Client;
 
 if (!isset($_SESSION['user_id'])) {
@@ -26,6 +26,6 @@ $_SESSION['altura'] = $nuevaAltura;
 $_SESSION['peso'] = $nuevoPeso;
 
 // Redirigir de nuevo a la página de perfil o inicio
-header('Location: index.php');
+header('Location: ../index.php');
 exit();
 ?>

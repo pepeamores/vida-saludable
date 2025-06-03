@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require __DIR__ . '/../../autoload.php';
 use MongoDB\Client;
 
 if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'admin') {
@@ -42,7 +42,7 @@ foreach ($ejerciciosCol->find() as $e) {
 
 <!-- Botón Volver -->
 <div class="position-fixed top-0 start-0 m-3">
-  <a href="ejercicio.php" class="btn btn-outline-secondary">Volver</a>
+  <a href="../public/ejercicio.php" class="btn btn-outline-secondary">Volver</a>
 </div>
 
 <?php if (isset($_SESSION['nombre'])): ?>
@@ -52,7 +52,7 @@ foreach ($ejerciciosCol->find() as $e) {
       <?= htmlspecialchars($_SESSION['nombre']) ?>
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item text-danger" href="../logout.php">Cerrar sesión</a></li>
+      <li><a class="dropdown-item text-danger" href="../config/logout.php">Cerrar sesión</a></li>
     </ul>
   </div>
 <?php endif; ?>

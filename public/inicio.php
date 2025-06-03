@@ -38,15 +38,15 @@
 
 <div class="overlay-content">
     <h1 class="mb-4">Bienvenido a Vida Saludable</h1>
-    <a href="login.php" class="btn btn-primary me-3">Iniciar Sesión</a>
-    <a href="register.php" class="btn btn-success">Registrarse</a>
+    <a href="../config/login.php" class="btn btn-primary me-3">Iniciar Sesión</a>
+    <a href="../config/register.php" class="btn btn-success">Registrarse</a>
 </div>
 
 <script>
     const images = [
-        '/img/fitness.jpg',
-        '/img/yoga.jpg',
-        '/img/comida.jpg'
+        '../img/fitness.jpg',
+        '../img/yoga.jpg',
+        '../img/comida.jpg'
     ];
 
     let index = 0;

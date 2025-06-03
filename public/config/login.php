@@ -3,9 +3,9 @@ session_start();
 
 if (isset($_SESSION['rol'])) {
     if ($_SESSION['rol'] === 'admin') {
-        header('Location: admin.php');
+        header('Location: ../admin/admin.php');
     } else {
-        header('Location: index.php');
+        header('Location: ../index.php');
     }
     exit();
 }
@@ -47,7 +47,8 @@ $loginError = $_GET['error'] ?? null;
         .btn {
             min-width: 150px;
         }
-    </style></head>
+    </style>
+</head>
 <body class="bg-light d-flex align-items-center justify-content-center vh-100">
 
 <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
@@ -74,13 +75,11 @@ $loginError = $_GET['error'] ?? null;
     </div>
 </div>
 
-</body>
-</html>
 <script>
     const images = [
-        '/img/fitness.jpg',
-        '/img/yoga.jpg',
-        '/img/comida.jpg'
+        '../img/fitness.jpg',
+        '../img/yoga.jpg',
+        '../img/comida.jpg'
     ];
 
     let index = 0;
@@ -90,12 +89,14 @@ $loginError = $_GET['error'] ?? null;
         index = (index + 1) % images.length;
     }
 
-    changeBackground(); // inicial
-    setInterval(changeBackground, 5000); // cada 5 segundos
+    changeBackground();
+    setInterval(changeBackground, 5000);
 </script>
-<?php
+</body>
+</html>
 
-require_once __DIR__ . '/../public/db.php';
+<?php
+require_once __DIR__ . '/db.php'; // corregido desde config
 
 $database = new Database();
 $bd = $database->getDb();
@@ -108,11 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $coleccion->findOne(['usuario' => $username]);
 
     if (!$user) {
-        die("❌ Usuario no encontrado.");
+        header('Location: login.php?error=Usuario no encontrado');
+        exit();
     }
 
     if ($user && password_verify($password, $user->password)) {
-        // Guardamos todos los datos útiles en sesión
         $_SESSION['user_id']    = (string)$user->_id;
         $_SESSION['nombre']     = $user->nombre ?? '';
         $_SESSION['apellidos']  = $user->apellidos ?? '';
@@ -125,11 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['rol']        = $user->rol ?? 'usuario';
         $_SESSION['activo']     = $user->activo ?? true;
 
-            // Redirigir según el rol
         if ($_SESSION['rol'] === 'admin') {
-            header('Location: admin.php');
+            header('Location: ../admin/admin.php');
         } else {
-            header('Location: index.php');
+            header('Location: ../public/index.php');
         }
         exit();
     } else {

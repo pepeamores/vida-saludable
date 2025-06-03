@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../autoload.php'; // asegúrate de usar la ruta correcta
+require_once __DIR__ . '/../../autoload.php'; // Carga Composer
 
 class Database {
     private $client;
@@ -8,8 +8,6 @@ class Database {
     public function __construct() {
         $uri = "mongodb+srv://usuario1:arshak2003@proyectomongo.vfdni.mongodb.net/";
         $this->client = new MongoDB\Client($uri);
-
-        // Selecciona tu base de datos real, por ejemplo "vida_saludable"
         $this->db = $this->client->selectDatabase("vida_saludable");
     }
 

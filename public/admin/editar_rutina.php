@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require '../../autoload.php';
 use MongoDB\Client;
 use MongoDB\BSON\ObjectId;
 
@@ -18,12 +18,21 @@ if (!$id) {
     exit("Rutina no especificada.");
 }
 
-$rutina = $coleccionRutinas->findOne(['_id' => new ObjectId($id)]);
+// Verificar si el id es un ObjectId válido
+if (preg_match('/^[a-f\d]{24}$/i', $id)) {
+    $filtro = ['_id' => new ObjectId($id)];
+} else {
+    $filtro = ['_id' => $id]; // tratar como string simple
+}
+
+$rutina = $coleccionRutinas->findOne($filtro);
 $ejercicios = $coleccionEjercicios->find([], ['sort' => ['nombre' => 1]]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $updateFiltro = preg_match('/^[a-f\d]{24}$/i', $id) ? ['_id' => new ObjectId($id)] : ['_id' => $id];
+
     $coleccionRutinas->updateOne(
-        ['_id' => new ObjectId($id)],
+        $updateFiltro,
         ['$set' => [
             'titulo' => $_POST['titulo'],
             'objetivo' => $_POST['objetivo'],
@@ -42,44 +51,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Editar Rutina</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../style/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/style.css">
 </head>
 <body class="bg-light">
-    <!-- Botón Volver -->
+
+<!-- Botón Volver -->
 <div class="position-fixed top-0 start-0 m-3">
-  <a href="ejercicio.php" class="btn btn-outline-secondary">Volver</a>
+    <a href="ver_rutinas.php" class="btn btn-outline-secondary">Volver</a>
 </div>
+
 <?php if (isset($_SESSION['nombre'])): ?>
-  <div class="dropdown position-fixed top-0 end-0 m-3">
+<div class="dropdown position-fixed top-0 end-0 m-3">
     <button class="btn btn-light dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-      <img src="../img/pefil.png" width="32" height="32" class="rounded-circle me-2">
-      <?= htmlspecialchars($_SESSION['nombre']) ?>
+        <img src="../img/pefil.png" width="32" height="32" class="rounded-circle me-2">
+        <?= htmlspecialchars($_SESSION['nombre']) ?>
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item text-danger" href="../logout.php">Cerrar sesión</a></li>
+        <li><a class="dropdown-item text-danger" href="../logout.php">Cerrar sesión</a></li>
     </ul>
-  </div>
+</div>
 <?php endif; ?>
 
 <header class="header text-center">
-  <div class="header-content">
-    <h1>Rutinas Guardadas</h1>
-    <p>Visualiza y gestiona todas las rutinas creadas en Vida Saludable.</p>
-    <?php if ($_SESSION['rol'] === 'admin'): ?>
-        <div class="d-flex flex-wrap justify-content-center gap-3">
-        <a href="../crear_ejercicios.php" class="btn btn-warning px-4 py-2 shadow-sm fw-semibold">
-            ➕ Crear Ejercicio
-        </a>
-        <a href="crear_rutina.php" class="btn btn-success px-4 py-2 shadow-sm fw-semibold">
-            ➕ Nueva Rutina
-        </a>
-        <a href="ver_ejercicios.php" class="btn btn-primary px-4 py-2 shadow-sm fw-semibold">
-            📋 Ver Ejercicios
-        </a>
-        </div>
-    <?php endif; ?>
-  </div>
+    <div class="header-content">
+        <h1>Editar Rutina</h1>
+        <p>Modifica los datos de una rutina existente.</p>
+    </div>
 </header>
 
 <div class="container py-5">
@@ -133,8 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button type="submit" class="btn btn-primary">💾 Guardar cambios</button>
-        <a href="ver_rutinas.php" class="btn btn-secondary ms-2">Volver</a>
+        <a href="ver_rutinas.php" class="btn btn-secondary ms-2">Cancelar</a>
     </form>
 </div>
+
 </body>
 </html>

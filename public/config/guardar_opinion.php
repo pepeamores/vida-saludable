@@ -1,5 +1,5 @@
 <?php
-require '../autoload.php'; // Asegúrate de que la ruta sea correcta si lo mueves de carpeta
+require_once __DIR__ . '/../../autoload.php'; // Ruta corregida al autoload si estás en /config
 use MongoDB\Client;
 session_start();
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $db->opiniones->insertOne($opinion);
-        header("Location: index.php?mensaje=Gracias por tu opinión");
+        header("Location: ../index.php?mensaje=Gracias por tu opinión");
         exit();
     } catch (Exception $e) {
         echo "Error al guardar la opinión: " . $e->getMessage();
@@ -41,4 +41,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Método no permitido.";
 }
-?>

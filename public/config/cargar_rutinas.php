@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require_once __DIR__ . '/../../autoload.php';
 use MongoDB\Client;
 
 $client = new Client("mongodb+srv://usuario1:arshak2003@proyectomongo.vfdni.mongodb.net/");
@@ -22,7 +22,7 @@ $ejerciciosCol = $db->ejercicios;
 
 $ejerciciosMap = [];
 foreach ($ejerciciosCol->find() as $e) {
-    $ejerciciosMap[(string)$e['_id']] = $e;
+    $ejerciciosMap[(string)$e->_id] = $e;
 }
 ?>
 
@@ -38,8 +38,15 @@ foreach ($ejerciciosCol->find() as $e) {
         <?php foreach ($rutina['ejercicios'] as $id): ?>
           <?php if (isset($ejerciciosMap[$id])): ?>
             <li class="list-group-item">
-              <a href="#" class="text-decoration-none" 
-                onclick="mostrarModalEjercicio('<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['nombre'])) ?>', '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['descripcion'] ?? 'Sin descripción.')) ?>', '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['nivel'])) ?>', '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['repeticiones'])) ?>', '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['grupo_muscular'] ?? '')) ?>', '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['duracion_aprox_min'] ?? '')) ?>', '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['video'] ?? '')) ?>')">
+              <a href="#" class="text-decoration-none"
+                onclick="mostrarModalEjercicio(
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['nombre'])) ?>',
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['descripcion'] ?? 'Sin descripción.')) ?>',
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['nivel'])) ?>',
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['repeticiones'])) ?>',
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['grupo_muscular'] ?? '')) ?>',
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['duracion_aprox_min'] ?? '')) ?>',
+                  '<?= htmlspecialchars(addslashes($ejerciciosMap[$id]['video'] ?? '')) ?>')">
                 📌 <?= htmlspecialchars($ejerciciosMap[$id]['nombre']) ?>
               </a>
             </li>

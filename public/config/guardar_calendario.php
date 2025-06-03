@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../autoload.php';
+require_once __DIR__ . '/../../autoload.php'; // Ajusta la ruta a Composer si estás en config/
 use MongoDB\Client;
 
 // Verifica si el usuario está logueado
@@ -41,6 +41,6 @@ $registro = [
 // Inserta en la colección
 $coleccion->insertOne($registro);
 
-// Redirige a ejercicio.php con mensaje
-header("Location: ejercicio.php?mensaje=semana_guardada");
+// Redirige a ejercicio.php (ajusta si está en otra ruta)
+header("Location: ../pages/ejercicio.php?mensaje=semana_guardada");
 exit;
