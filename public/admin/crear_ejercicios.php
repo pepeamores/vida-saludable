@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar ejercicio</button>
-        <a href="../index.php" class="btn btn-secondary ms-2">Volver</a>
+        <a href="../inicio.php" class="btn btn-secondary ms-2">Volver</a>
     </form>
 </div>
 

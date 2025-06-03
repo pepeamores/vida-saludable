@@ -52,7 +52,7 @@ foreach ($ejerciciosCol->find() as $e) {
       <?= htmlspecialchars($_SESSION['nombre']) ?>
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item text-danger" href="../config/logout.php">Cerrar sesión</a></li>
+      <li><a class="dropdown-item text-danger" href="../logout.php">Cerrar sesión</a></li>
     </ul>
   </div>
 <?php endif; ?>

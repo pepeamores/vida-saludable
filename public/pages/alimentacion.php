@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <nav class="main-nav">
         <ul>
-            <li><a href="../index.php">Inicio</a></li>
+            <li><a href="../inicio.php">Inicio</a></li>
             <li><a href="ejercicio.php">Ejercicio Físico</a></li>
         </ul>
     </nav>

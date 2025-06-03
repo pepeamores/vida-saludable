@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $db->opiniones->insertOne($opinion);
-        header("Location: ../index.php?mensaje=Gracias por tu opinión");
+        header("Location: ../inicio.php?mensaje=Gracias por tu opinión");
         exit();
     } catch (Exception $e) {
         echo "Error al guardar la opinión: " . $e->getMessage();

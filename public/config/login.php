@@ -5,7 +5,7 @@ if (isset($_SESSION['rol'])) {
     if ($_SESSION['rol'] === 'admin') {
         header('Location: ../admin/admin.php');
     } else {
-        header('Location: ../index.php');
+        header('Location: ../inicio.php');
     }
     exit();
 }
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_SESSION['rol'] === 'admin') {
             header('Location: ../admin/admin.php');
         } else {
-            header('Location: ../public/index.php');
+            header('Location: ../inicio.php');
         }
         exit();
     } else {

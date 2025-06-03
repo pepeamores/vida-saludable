@@ -26,6 +26,6 @@ $_SESSION['altura'] = $nuevaAltura;
 $_SESSION['peso'] = $nuevoPeso;
 
 // Redirigir de nuevo a la página de perfil o inicio
-header('Location: ../index.php');
+header('Location: ../inicio.php');
 exit();
 ?>

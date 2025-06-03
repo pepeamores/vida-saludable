@@ -53,7 +53,7 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
   </div>
   <nav class="main-nav">
     <ul>
-      <li><a href="../index.php">Inicio</a></li>            
+      <li><a href="../inicio.php">Inicio</a></li>            
       <li><a href="alimentacion.php">Alimentación Saludable</a></li>
       <li><a href="salud_mental.php">Salud Mental</a></li>
     </ul>
