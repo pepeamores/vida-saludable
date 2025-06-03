@@ -91,9 +91,11 @@ $mediaOpiniones = count($opiniones) > 0 ? round(array_sum(array_column($opinione
 
   <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
     <a href="crear_ejercicios.php" class="btn btn-success">➕ Crear Ejercicio</a>
+    <a href="crear_dieta.php" class="btn btn-success">➕ Crear Dietas</a>
     <a href="../admin/crear_rutina.php" class="btn btn-primary">📝 Crear Rutina</a>
     <a href="ver_ejercicios.php" class="btn btn-warning">📋 Ver Ejercicios</a>
     <a href="ver_rutinas.php" class="btn btn-info">📋 Ver Rutinas</a>
+    <a href="ver_dietas.php" class="btn btn-info">📋 Ver Dietas</a>
   </div>
 
   <div class="row text-center">
