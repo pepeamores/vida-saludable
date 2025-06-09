@@ -1,5 +1,5 @@
 <?php
-// crear_dieta.php
+
 session_start();
 require '../../autoload.php';
 use MongoDB\Client;
@@ -8,6 +8,7 @@ use MongoDB\Client;
 $client = new Client("mongodb+srv://usuario1:arshak2003@proyectomongo.vfdni.mongodb.net/");
 $db = $client->vida_saludable;
 
+$msg = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = $_POST['nombre'] ?? '';
     $alimentos = $_POST['alimentos'] ?? '';
@@ -36,6 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+
+<!-- Botón Volver -->
+<div class="position-fixed top-0 start-0 m-3">
+  <a href="admin.php" class="btn btn-primary">Volver</a>
+</div>
+
 <?php if (isset($_SESSION['nombre'])): ?>
   <div class="dropdown position-fixed top-0 end-0 m-3">
     <button class="btn btn-light dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
@@ -48,20 +55,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 <?php endif; ?>
 
-<div class="container my-5">
-    <div class="d-flex justify-content-end mb-3">
-        <a href="admin.php" class="btn btn-secondary">Volver al panel</a>
-    </div>
-    <h2 class="mb-4">🥗 Crear Dieta</h2>
-    
-    <form method="post" class="card p-4 shadow-sm" style="max-width: 500px; margin: 0 auto; border-radius: 16px;">
+<header class="header text-center">
+  <div class="header-content">
+    <h1>Crear Dieta</h1>
+    <p>Agrega una nueva dieta recomendada para los usuarios.</p>
+  </div>
+</header>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center"><img src="../img/dietas2.png" alt="Dietas" style="height:45px;vertical-align:middle;margin-right:7px;"> Crear Nueva Dieta</h2>
+
+    <?php if ($msg): ?>
+        <div class="alert alert-info"><?= $msg ?></div>
+    <?php endif; ?>
+
+    <form method="post" class="bg-white p-4 rounded shadow" style="max-width: 600px; margin: 0 auto;">
         <div class="mb-3">
             <label class="form-label">Nombre</label>
             <input type="text" name="nombre" class="form-control" required>
         </div>
         <div class="mb-3">
-        <label class="form-label">Alimentos</label>
-        <textarea name="alimentos" class="form-control" required></textarea>
+            <label class="form-label">Alimentos</label>
+            <textarea name="alimentos" class="form-control" required></textarea>
         </div>
         <div class="mb-3">
             <label class="form-label">Calorías</label>
@@ -86,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <option value="intenso">Intenso (ejercicio fuerte 6-7 días/semana)</option>
             </select>
         </div>
-        <button class="btn btn-success w-100">Guardar</button>
+        <button class="btn btn-success w-100">Guardar dieta</button>
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

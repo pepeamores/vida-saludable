@@ -1,6 +1,5 @@
 <?php 
 session_start(); 
-
 $recomendacionTexto = '';
 if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
     $alturaM = floatval($_SESSION['altura']); // en metros
@@ -21,6 +20,7 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
         $recomendacionTexto = "Según tu altura ({$alturaM} m) y tu peso ({$peso} kg), te recomendamos que te enfoques en la siguiente opción: <strong>{$opcion}</strong>.";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,7 +41,7 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
             <?= htmlspecialchars($_SESSION['nombre']) ?>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item text-danger" href="../config/logout.php">Cerrar sesión</a></li>
+            <li><a class="dropdown-item text-danger" href="../logout.php">Cerrar sesión</a></li>
         </ul>
     </div>
 <?php endif; ?>
@@ -60,19 +60,14 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
   </nav>
 </header>
 
-<?php if ($recomendacionTexto): ?>
-  <div class="alert alert-info mx-auto" style="max-width: 700px;">
-    <?= $recomendacionTexto ?>
-  </div>
-<?php endif; ?>
 
 <section class="container my-5 text-center">
-  <h2 class="mb-4">💪 Selecciona tu objetivo</h2>
+  <h2 class="mb-4"><img src="../img/brazo1.png" alt="Brazo fuerte" style="height: 33px; vertical-align: middle; margin-right: 7px;">Selecciona tu objetivo</h2>
   <div class="btn-group mb-4" role="group">
-    <button class="btn btn-dark" onclick="mostrarRecomendacion('pérdida de peso')">📉 Pérdida de peso</button>
-    <button class="btn btn-secondary" onclick="mostrarRecomendacion('ganancia muscular')">🏋️ Ganancia muscular</button>
-    <button class="btn btn-light text-dark" onclick="mostrarRecomendacion('tonificación')">🏋️ Tonificación</button>
-    <button class="btn btn-info text-white" onclick="mostrarRecomendacion('movilidad y flexibilidad')">🧼 Movilidad y flexibilidad</button>
+    <button class="btn btn-primary" onclick="mostrarRecomendacion('pérdida de peso')"><img src="../img/perdida_peso.png" alt="Pérdida de peso" style="height: 22px; vertical-align: middle; margin-right: 7px;">Pérdida de peso</button>
+    <button class="btn btn-secondary" onclick="mostrarRecomendacion('ganancia muscular')"><img src="../img/fuerza.png" alt="Ganancia muscular" style="height: 22px; vertical-align: middle; margin-right: 7px;">Ganancia muscular</button>
+    <button class="btn btn-light text-dark" onclick="mostrarRecomendacion('tonificación')"><img src="../img/fuerza.png" alt="Tonificación" style="height: 22px; vertical-align: middle; margin-right: 7px;">Tonificación</button>
+    <button class="btn btn-info text-white" onclick="mostrarRecomendacion('movilidad')"><img src="../img/flexibilidad.png" alt="Movilidad" style="height: 22px; vertical-align: middle; margin-right: 7px;">Movilidad y flexibilidad</button>
   </div>
   <div class="mb-3">
     <label for="filtro-nivel" class="form-label">Filtrar por nivel:</label>
@@ -88,9 +83,9 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <section class="container my-5" id="rutinas-container"></section>
 
 <section class="container my-5">
-  <h2 class="mb-4">🗓 Tu calendario de entrenamiento</h2>
+  <h2 class="mb-4"><img src="../img/calendario.png" alt="Calendario" style="height: 37px; vertical-align: middle; margin-right: 7px;"> Tu calendario de entrenamiento</h2>
   <form method="post" action="../config/guardar_calendario.php">
-    <table class="table table-bordered table-hover bg-white shadow">
+    <table class="table table-bordered table-hover bg-white shadow rounded" style="border-radius: 18px; overflow: hidden;">
       <thead class="table-light">
         <tr><th>Día</th><th>¿Entrenaste?</th><th>¿Qué hiciste?</th></tr>
       </thead>
@@ -104,33 +99,41 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
             <input type="checkbox" class="form-check-input" name="entrenado[<?= $i ?>]" value="1">
           </td>
           <td>
-            <textarea name="notas[<?= $i ?>]" class="form-control" rows="1" placeholder="¿Qué hiciste?"></textarea>
+            <select name="notas[<?= $i ?>]" class="form-select" >
+              <option value="">Selecciona</option>
+              <option value="pecho">Pecho</option>
+              <option value="biceps">Bíceps</option>
+              <option value="triceps">Tríceps</option>
+              <option value="piernas">Piernas</option>
+              <option value="espalda">Espalda</option>
+              <option value="otros">Otros</option>
+            </select>
           </td>
         </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
     <div class="text-end">
-      <button class="btn btn-success" type="submit">📂 Guardar semana</button>
+      <button class="btn btn-success" type="submit"> Guardar semana</button>
     </div>
   </form>
 </section>
 
 <div class="container my-4 text-center">
-  <button class="btn btn-info" onclick="mostrarGraficas()">📊 Mostrar gráficas</button>
+  <button class="btn btn-info" id="btn-graficas-ejercicio" onclick="toggleGraficasEjercicio()">
+    <img src="../img/graficas1.png" alt="Gráfica" style="height:24px;vertical-align:middle;margin-right:7px;">
+    Mostrar gráficas
+  </button>
 </div>
 
 <section class="container my-5" id="seccion-graficas" style="display:none;">
-  <h2 class="mb-4 text-center">📊 Análisis de tu Progreso</h2>
+  <h2 class="mb-4 text-center">Análisis de tu Progreso</h2>
   <div class="row">
     <div class="col-md-6 mb-4">
       <canvas id="graficaDiasSemana"></canvas>
     </div>
     <div class="col-md-6 mb-4">
       <canvas id="graficaTiposEntrenamiento"></canvas>
-    </div>
-    <div class="col-md-12">
-      <canvas id="graficaFrecuenciaDia"></canvas>
     </div>
   </div>
 </section>
@@ -147,16 +150,10 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
   </div>
 </div>
 
-<section class="testimonials">
-    <h2>Testimonios</h2>
-    <div id="testimony-slider">
-        <p class="testimony-text">"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."</p>
-        <p class="testimony-author">- Ana Pérez</p>
-    </div>
-</section>
+
 
 <footer>
-    <p>&copy; 2024 Vida Saludable. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Vida Saludable. Todos los derechos reservados.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -166,7 +163,7 @@ let objetivoSeleccionado = '';
 function mostrarRecomendacion(objetivo) {
   objetivoSeleccionado = objetivo;
   const nivel = document.getElementById('filtro-nivel').value;
-  cargarRutinas(objetivo, nivel);
+  cargarRutinas(objetivoSeleccionado, nivel);
 }
 
 function filtrarPorNivel() {
@@ -203,6 +200,8 @@ function cargarRutinas(objetivo, nivel) {
   });
 }
 
+
+
 function mostrarGraficas() {
   document.getElementById('seccion-graficas').style.display = 'block';
   fetch('../config/datos_graficas.php').then(res => res.json()).then(data => {
@@ -234,6 +233,40 @@ function mostrarGraficas() {
       options: { scales: { y: { beginAtZero: true } } }
     });
   });
+}
+
+function toggleGraficasEjercicio() {
+  const seccion = document.getElementById('seccion-graficas');
+  const btn = document.getElementById('btn-graficas-ejercicio');
+  const icono = '<img src="../img/graficas1.png" alt="Gráfica" style="height:24px;vertical-align:middle;margin-right:7px;">';
+  if (seccion.style.display === 'block') {
+    seccion.style.display = 'none';
+    btn.innerHTML = icono + 'Mostrar gráficas';
+    if (chartDiasSemana) { chartDiasSemana.destroy(); chartDiasSemana = null; }
+    if (chartTiposEntrenamiento) { chartTiposEntrenamiento.destroy(); chartTiposEntrenamiento = null; }
+  } else {
+    seccion.style.display = 'block';
+    btn.innerHTML = icono + 'Ocultar gráficas';
+    mostrarGraficas();
+  }
+}
+function toggleSelect(i) {
+  const check = document.getElementById('entrenado' + i);
+  const select = document.getElementById('tipo_ejercicio' + i);
+  if (check.checked) {
+    select.disabled = false;
+    select.required = true;
+  } else {
+    select.disabled = true;
+    select.required = false;
+    select.value = "";
+  }
+}
+// Inicializa el estado de los selects al cargar la página
+window.onload = function() {
+  for (let i = 0; i < 7; i++) {
+    toggleSelect(i);
+  }
 }
 </script>
 

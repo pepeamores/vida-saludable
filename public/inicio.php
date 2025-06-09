@@ -39,7 +39,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
         <h1>Vida Saludable</h1>
         <p>Descubre cómo mejorar tu salud física, mental y emocional a través de hábitos saludables.</p>
         <?php if (isset($_SESSION['nombre'])): ?>
-            <p class="mt-2">👋 Bienvenido, <strong><?= htmlspecialchars($_SESSION['nombre']) ?></strong></p>
+            <p class="mt-2">Bienvenido, <strong><?= htmlspecialchars($_SESSION['nombre']) ?></strong></p>
         <?php endif; ?>
     </div>
 
@@ -86,35 +86,34 @@ function calcularEdadDesdeTexto($fechaTexto) {
         <img src="../img/health.png" alt="Vida saludable" class="img-fluid" style="max-width: 400px; border-radius: 10px;">
 
         <div class="highlight-text ms-4 mt-4 mt-md-0">
-            <h2>Vive Saludable Hoy</h2>
+            <h2>Alimentate bien desde HOY</h2>
             <p>La clave de una vida plena y larga es cuidar tanto del cuerpo como de la mente. Aquí aprenderás cómo hacerlo.</p>
             <a href="../pages/alimentacion.php" class="cta-button btn btn-success">Descubre Más</a>
         </div>
     </section>
 
-    <div class="section-card">
-        <img src="../img/fitness.jpg" alt="Ejercicio Físico">
-        <div class="card-content">
-            <h3>Ejercicio Físico</h3>
-            <p>Conoce las mejores rutinas de ejercicio para mantenerte en forma.</p>
-            <button class="expand-btn" onclick="toggleSection('fitness')">Leer Más</button>
-            <div id="fitness" class="extra-content">
-                <p>El ejercicio regular mejora tu salud cardiovascular, fortalece tus músculos y te ayuda a mantener un peso saludable.</p>
+    <div class="row mt-5 justify-content-center">
+    <div class="col-md-6 mb-4 mb-md-0">
+        <section class="as highlight d-flex flex-wrap justify-content-center align-items-center h-100 p-4" style="max-width: 650px;">
+            <img src="../img/fitness.jpg" alt="Ejercicio Físico" class="img-fluid" style="max-width: 440px; border-radius: 12px;">
+            <div class="highlight-text ms-3 mt-4 mt-md-0" style="max-width: 230px; padding: 0.7rem;">
+                <h2 style="font-size:1.5rem;">¡Actívate con Ejercicio Físico!</h2>
+                <p style="font-size:1.05rem;">Conoce las mejores rutinas para mantenerte en forma, mejorar tu salud cardiovascular y fortalecer tus músculos.</p>
+                <a href="../pages/ejercicio.php" class="cta-button btn btn-success">Ver Rutinas</a>
             </div>
-        </div>
+        </section>
     </div>
-
-    <div class="section-card">
-        <img src="../img/yoga.jpg" alt="Salud Mental">
-        <div class="card-content">
-            <h3>Salud Mental</h3>
-            <p>Aprende técnicas para cuidar de tu bienestar mental y emocional.</p>
-            <button class="expand-btn" onclick="toggleSection('mental-health')">Leer Más</button>
-            <div id="mental-health" class="extra-content">
-                <p>La salud mental es esencial para una vida equilibrada. Practica técnicas de relajación y meditación para mantenerla en su mejor estado.</p>
+    <div class="col-md-6">
+        <section class="as highlight d-flex flex-wrap justify-content-center align-items-center h-100 p-4" style="max-width: 650px;">
+            <img src="../img/yoga.jpg" alt="Salud Mental" class="img-fluid" style="max-width: 900px; border-radius: 12px;">
+            <div class="highlight-text ms-3 mt-4 mt-md-0" style="max-width: 230px; padding: 0.7rem;">
+                <h2 style="font-size:1.5rem;">Salud Mental</h2>
+                <p style="font-size:1.05rem;">Aprende técnicas para cuidar de tu bienestar mental y emocional.</p>
+                <a href="../pages/salud_mental.php" class="cta-button btn btn-success">Descubre Más</a>
             </div>
-        </div>
+        </section>
     </div>
+</div>
 </section>
 
 <?php if (isset($_SESSION['user_id'])): ?>

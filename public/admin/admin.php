@@ -87,15 +87,15 @@ $mediaOpiniones = count($opiniones) > 0 ? round(array_sum(array_column($opinione
 <?php endif; ?>
 
 <div class="container my-5">
-  <h1 class="text-center mb-4">🎛 Panel de Control del Administrador</h1>
+  <h1 class="text-center mb-4"><img src="../img/paneladmin.png" alt="Crear" style="height:45px;vertical-align:middle;margin-right:7px;">Panel de Control del Administrador</h1>
 
   <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
-    <a href="crear_ejercicios.php" class="btn btn-success">➕ Crear Ejercicio</a>
-    <a href="crear_dieta.php" class="btn btn-success">➕ Crear Dietas</a>
-    <a href="../admin/crear_rutina.php" class="btn btn-primary">📝 Crear Rutina</a>
-    <a href="ver_ejercicios.php" class="btn btn-warning">📋 Ver Ejercicios</a>
-    <a href="ver_rutinas.php" class="btn btn-info">📋 Ver Rutinas</a>
-    <a href="ver_dietas.php" class="btn btn-info">📋 Ver Dietas</a>
+    <a href="crear_ejercicios.php" class="btn btn-dark"><img src="../img/crear1.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Crear Ejercicio</a>
+    <a href="crear_dieta.php" class="btn btn-dark"><img src="../img/crear1.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Crear Dieta</a>
+    <a href="../admin/crear_rutina.php" class="btn btn-dark"><img src="../img/crear1.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Crear Rutina</a>
+    <a href="ver_ejercicios.php" class="btn btn-info"><img src="../img/veradmin.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Ver Ejercicios</a>
+    <a href="ver_rutinas.php" class="btn btn-info"><img src="../img/veradmin.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Ver Rutinas</a>
+    <a href="ver_dietas.php" class="btn btn-info"><img src="../img/veradmin.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Ver Dietas</a>
   </div>
 
   <div class="row text-center">

@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </header>
 
 <div class="container mt-5">
-    <h2 class="mb-4">📝 Crear Nuevo Ejercicio</h2>
+    <h2 class="mb-4 text-center"><img src="../img/crear1.png" alt="Crear ejercicio" style="height:40px;vertical-align:middle;margin-right:7px;">Crear Nuevo Ejercicio</h2>
 
     <?php if ($mensaje): ?>
         <div class="alert alert-info"><?= $mensaje ?></div>
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button type="submit" class="btn btn-primary">Guardar ejercicio</button>
-        <a href="../inicio.php" class="btn btn-secondary ms-2">Volver</a>
+        
     </form>
 </div>
 
