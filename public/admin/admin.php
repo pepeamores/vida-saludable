@@ -87,7 +87,7 @@ $mediaOpiniones = count($opiniones) > 0 ? round(array_sum(array_column($opinione
 <?php endif; ?>
 
 <div class="container my-5">
-  <h1 class="text-center mb-4"><img src="../img/paneladmin.png" alt="Crear" style="height:45px;vertical-align:middle;margin-right:7px;">Panel de Control del Administrador</h1>
+  <h1 class="text-center mb-4"><img src="../img/paneladmin.png" alt="Admin" style="height:45px;vertical-align:middle;margin-right:7px;">Panel de Control del Administrador</h1>
 
   <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
     <a href="crear_ejercicios.php" class="btn btn-dark"><img src="../img/crear1.png" alt="Crear" style="height:26px;vertical-align:middle;margin-right:7px;">Crear Ejercicio</a>
@@ -99,27 +99,27 @@ $mediaOpiniones = count($opiniones) > 0 ? round(array_sum(array_column($opinione
   </div>
 
   <div class="row text-center">
-    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>👥 Total Usuarios</h5><p class="display-6"><?= $totalUsuarios ?></p></div></div>
-    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>📚 Total Rutinas</h5><p class="display-6"><?= $totalRutinas ?></p></div></div>
-    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>💪 Total Ejercicios</h5><p class="display-6"><?= $totalEjercicios ?></p></div></div>
-    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>📅 Entradas en Calendario</h5><p class="display-6"><?= $totalRegistrosCalendario ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5><img src="../img/pefil.png" alt="User" style="height:26px;vertical-align:middle;margin-right:7px;">Total Usuarios</h5><p class="display-6"><?= $totalUsuarios ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5><img src="../img/veradmin.png" alt="Rutinas" style="height:26px;vertical-align:middle;margin-right:7px;">Total Rutinas</h5><p class="display-6"><?= $totalRutinas ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5><img src="../img/fuerza.png" alt="Ejercicios" style="height:26px;vertical-align:middle;margin-right:7px;"> Total Ejercicios</h5><p class="display-6"><?= $totalEjercicios ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5><img src="../img/calendario.png" alt="Calendario" style="height:26px;vertical-align:middle;margin-right:7px;">Entradas en Calendario</h5><p class="display-6"><?= $totalRegistrosCalendario ?></p></div></div>
   </div>
 
   <div class="row text-center mt-4">
     <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>✅ Activos Esta Semana</h5><p class="display-6"><?= $usuariosActivosCount ?></p></div></div>
-    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>📈 Promedio Entrenamientos</h5><p class="display-6"><?= $promedioEntrenamientos ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5><img src="../img/promedio2.png" alt="Promedio" style="height:30px;vertical-align:middle;margin-right:7px;">Promedio Entrenamientos</h5><p class="display-6"><?= $promedioEntrenamientos ?></p></div></div>
     <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>⭐ Valoración Promedio</h5><p class="display-6"><?= $mediaOpiniones ?> / 10</p></div></div>
-    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5>😴 Inactivos (14 días)</h5><p class="display-6"><?= $usuariosInactivosCount ?></p></div></div>
+    <div class="col-md-3 mb-3"><div class="card p-3 shadow-sm"><h5><img src="../img/inactivo.png" alt="Inactivo" style="height:30px;vertical-align:middle;margin-right:7px;"> Inactivos (14 días)</h5><p class="display-6"><?= $usuariosInactivosCount ?></p></div></div>
   </div>
 
   <div class="mt-5">
-    <h3 class="text-center mb-4">💬 Opiniones de usuarios</h3>
+    <h3 class="text-center mb-4"><img src="../img/valoracion_pagina.png" alt="Comentarios" style="height:48px;vertical-align:middle;margin-right:7px;"> Opiniones de usuarios</h3>
     <div class="list-group">
       <?php foreach ($opiniones as $op): ?>
         <div class="list-group-item">
           <h6><?= htmlspecialchars($op['nombre']) ?>
           <small class="text-muted">(<?= date('d/m/Y', $op['fecha']->toDateTime()->getTimestamp()) ?>)</small></h6>
-          <p class="mb-1">📈 Valoración: <strong><?= $op['puntuacion'] ?>/10</strong><br><?= htmlspecialchars($op['comentario']) ?></p>
+          <p class="mb-1"><img src="../img/promedio2.png" alt="Valoraciones" style="height:26px;vertical-align:middle;margin-right:7px;"> Valoración: <strong><?= $op['puntuacion'] ?>/10</strong><br><?= htmlspecialchars($op['comentario']) ?></p>
         </div>
       <?php endforeach; ?>
     </div>

@@ -43,11 +43,11 @@ $ejercicios = $db->ejercicios->find();
 </header>
 
 <div class="container py-5">
-  <h2 class="mb-4 text-center">🏋️‍♂️ Todos los Ejercicios Registrados</h2>
+  <h2 class="mb-4 text-center"><img src="../img/fuerza.png" alt="Fuerza" style="height:40px;vertical-align:middle;margin-right:7px;">Todos los Ejercicios Registrados</h2>
 
   <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'): ?>
     <div class="text-end mb-4">
-      <a href="crear_ejercicios.php" class="btn btn-success">➕ Nuevo Ejercicio</a>
+      <a href="crear_ejercicios.php" class="btn btn-success">Nuevo Ejercicio</a>
     </div>
   <?php endif; ?>
 

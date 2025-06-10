@@ -56,7 +56,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
     <section class=" as highlight d-flex flex-wrap justify-content-center align-items-center">
         <?php if (isset($_SESSION['user_id'])): ?>
         <div class="user-info text-start bg-white p-4 rounded shadow me-4" style="max-width: 300px;">
-            <h4 class="text-success mb-3">👤 Tu perfil</h4>
+            <h4 class="text-success mb-3"><img src="../img/perfil2.png" alt="Perfil2" style="height:40px;width:40px;vertical-align:middle;margin-right:7px;">Tu perfil</h4>
             <form method="POST" action="../config/actualizar_datos.php" id="form-perfil">
             <p><strong>Nombre:</strong> <?= htmlspecialchars($_SESSION['nombre']) . ' ' . htmlspecialchars($_SESSION['apellidos']) ?></p>
             <p><strong>Edad:</strong> <?= isset($_SESSION['fecha_nacimiento']) ? calcularEdadDesdeTexto($_SESSION['fecha_nacimiento']) . ' años' : 'No especificada' ?></p>
@@ -77,8 +77,8 @@ function calcularEdadDesdeTexto($fechaTexto) {
             <p><strong>Email:</strong> <?= htmlspecialchars($_SESSION['email']) ?></p>
             <p><strong>Usuario:</strong> <?= htmlspecialchars($_SESSION['usuario']) ?></p>
 
-            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-editar">✏️ Editar</button>
-            <button type="submit" class="btn btn-primary btn-sm d-none" id="btn-guardar">💾 Guardar</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-editar">Editar</button>
+            <button type="submit" class="btn btn-primary btn-sm d-none" id="btn-guardar">Guardar</button>
             </form>
         </div>
         <?php endif; ?>
@@ -118,7 +118,7 @@ function calcularEdadDesdeTexto($fechaTexto) {
 
 <?php if (isset($_SESSION['user_id'])): ?>
 <section class="container my-5">
-  <h3 class="text-center mb-4">📈 Danos tu opinión</h3>
+  <h3 class="text-center mb-4"><img src="../img/valoracion_pagina.png" alt="Valoracion" style="height:45px;vertical-align:middle;margin-right:7px;">Danos tu opinión</h3>
   <form method="post" action="../config/guardar_opinion.php" class="bg-white p-4 rounded shadow-sm">
     <div class="mb-3">
       <label class="form-label">Valoración general (1 a 10)</label>
@@ -133,16 +133,17 @@ function calcularEdadDesdeTexto($fechaTexto) {
 </section>
 <?php endif; ?>
 
-<section class="testimonials">
+
+
+<footer>
+    <section class="testimonios">
     <h2>Testimonios</h2>
     <div id="testimony-slider">
         <p class="testimony-text">"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."</p>
         <p class="testimony-author">- Ana Pérez</p>
     </div>
-</section>
-
-<footer>
-    <p>&copy; 2024 Vida Saludable. Todos los derechos reservados.</p>
+    </section>
+    <p>&copy; 2025 Vida Saludable. Todos los derechos reservados.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

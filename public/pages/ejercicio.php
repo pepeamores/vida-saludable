@@ -102,6 +102,9 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
             <select name="notas[<?= $i ?>]" class="form-select" >
               <option value="">Selecciona</option>
               <option value="pecho">Pecho</option>
+              <option value="hombros">Hombros</option>
+              <option value="abdominales">Abdominales</option>
+              <option value="cardio">Cardio</option>
               <option value="biceps">Bíceps</option>
               <option value="triceps">Tríceps</option>
               <option value="piernas">Piernas</option>

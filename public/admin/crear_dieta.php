@@ -32,11 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Dieta</title>
-    <link rel="stylesheet" href="../style/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Crear Dieta - Admin</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../style/style.css">
 </head>
-<body class="bg-light">
 
 <!-- Botón Volver -->
 <div class="position-fixed top-0 start-0 m-3">
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <header class="header text-center">
   <div class="header-content">
-    <h1>Crear Dieta</h1>
+    <h2>Crear Dieta</h2>
     <p>Agrega una nueva dieta recomendada para los usuarios.</p>
   </div>
 </header>

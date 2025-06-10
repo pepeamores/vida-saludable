@@ -56,7 +56,7 @@ foreach ($ejerciciosCol->find() as $e) {
 </header>
 
 <div class="container py-5">
-  <h2 class="mb-4 text-center">📋 Rutinas Registradas</h2>
+  <h2 class="mb-4 text-center"><img src="../img/fuerza.png" alt="Fuerza" style="height:40px;vertical-align:middle;margin-right:7px;">Rutinas Registradas</h2>
 
   <?php foreach ($rutinas as $rutina): ?>
     <div class="card mb-4 shadow-sm">
@@ -76,20 +76,20 @@ foreach ($ejerciciosCol->find() as $e) {
                 (<?= $ejerciciosMap[$id]['nivel'] ?>)
               </li>
             <?php else: ?>
-              <li class="list-group-item text-danger">⚠️ Ejercicio no encontrado: <?= $id ?></li>
+              <li class="list-group-item text-danger">Ejercicio no encontrado: <?= $id ?></li>
             <?php endif; ?>
           <?php endforeach; ?>
         </ul>
 
         <div class="text-end mt-3">
-          <a href="editar_rutina.php?id=<?= $rutina['_id'] ?>" class="btn btn-warning">✏️ Editar rutina</a>
+          <a href="editar_rutina.php?id=<?= $rutina['_id'] ?>" class="btn btn-warning">Editar rutina</a>
         </div>
       </div>
     </div>
   <?php endforeach; ?>
 
   <div class="text-end mt-4">
-    <a href="crear_rutina.php" class="btn btn-success">➕ Crear nueva rutina</a>
+    <a href="crear_rutina.php" class="btn btn-success">Crear nueva rutina</a>
   </div>
 </div>
 

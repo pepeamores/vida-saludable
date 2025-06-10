@@ -42,9 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $coleccion->insertOne($ejercicio);
-        $mensaje = "✅ Ejercicio insertado correctamente.";
+        $mensaje = "Ejercicio insertado correctamente.";
     } catch (Exception $e) {
-        $mensaje = "❌ Error: " . $e->getMessage();
+        $mensaje = "Error: " . $e->getMessage();
     }
 }
 ?>
