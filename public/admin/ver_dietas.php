@@ -61,6 +61,9 @@ function ejercicio_texto($valor) {
 
 <div class="container py-5">
   <h2 class="mb-4 text-center"><img src="../img/veradmin.png" alt="Dietas" style="height:40px;vertical-align:middle;margin-right:7px;">Dietas</h2>
+  <div class="text-end mb-4">
+    <a href="crear_dieta.php" class="btn btn-success">Crear nueva dieta</a>
+  </div>
   <div class="table-responsive">
     <table class="table table-bordered bg-white shadow rounded" style="border-radius: 18px; overflow: hidden;">
       <thead class="table-light">
@@ -98,9 +101,7 @@ function ejercicio_texto($valor) {
       </tbody>
     </table>
   </div>
-  <div class="text-end mt-4">
-    <a href="crear_dieta.php" class="btn btn-success">Crear nueva dieta</a>
-  </div>
+  
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

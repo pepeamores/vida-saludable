@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     $coleccionRutinas->insertOne($rutina);
-    $mensaje = "✅ Rutina creada correctamente.";
+    $mensaje = "Rutina creada correctamente.";
 }
 ?>
 

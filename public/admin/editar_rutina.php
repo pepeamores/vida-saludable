@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </header>
 
 <div class="container py-5">
-    <h2 class="mb-4">✏️ Editar Rutina</h2>
+    <h2 class="mb-4">Editar Rutina</h2>
 
     <form method="post" class="bg-white p-4 rounded shadow">
         <div class="mb-3">
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">💾 Guardar cambios</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
         <a href="ver_rutinas.php" class="btn btn-secondary ms-2">Cancelar</a>
     </form>
 </div>
