@@ -19,9 +19,11 @@ function calcularEdadDesdeTexto($fechaTexto) {
     <title>Vida Saludable</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/style.css">
+    
 </head>
 
 <body>
+
 <?php if (isset($_SESSION['nombre'])): ?>
     <div class="dropdown position-fixed top-0 end-0 m-3">
         <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
@@ -137,16 +139,18 @@ function calcularEdadDesdeTexto($fechaTexto) {
 
 <footer>
     <section class="testimonios">
-    <h2>Testimonios</h2>
-    <div id="testimony-slider">
-        <p class="testimony-text">"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."</p>
-        <p class="testimony-author">- Ana Pérez</p>
-    </div>
+        <h2>Testimonios</h2>
+        <div id="testimony-slider">
+            <p class="testimony-text">"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."</p>
+            <p class="testimony-author">- Ana Pérez</p>
+        </div>
     </section>
     <p>&copy; 2025 Vida Saludable. Todos los derechos reservados.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/script.js"></script>
+
 <script>
     function toggleSection(id) {
         const el = document.getElementById(id);
@@ -167,5 +171,6 @@ function calcularEdadDesdeTexto($fechaTexto) {
         document.getElementById('btn-guardar').classList.remove('d-none');
     });
 </script>
+
 </body>
 </html>

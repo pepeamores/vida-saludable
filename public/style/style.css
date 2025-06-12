@@ -156,6 +156,22 @@ h1, h2 {
 .expand-btn:hover {
     background-color: #2c7a29;
 }
+.objetivo-btn {
+    background: #fff !important;
+    color: #222 !important;
+    border-radius: 12px !important;
+    min-width: 210px;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(44, 122, 41, 0.06);
+    margin: 0 8px 8px 0;
+}
+
+.objetivo-btn.selected,
+.objetivo-btn:active {
+    background: #5ef7b2 !important; /* Verde clarito */
+    color: #222 !important;
+    border-color: #000000 !important;
+}
 
 /* Opinión - Registro - Fondo difuminado */
 .register-container {

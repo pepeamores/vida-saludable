@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </header>   
 
 <div class="container mt-5">
-    <h2 class="mb-4 text-center"><img src="../img/crear1.png" alt="Crear Rutina" style="height:40px;vertical-align:middle;margin-right:7px;">Crear Nueva Rutina</h2>
+    <h2 class="mb-4 text-center"><img src="../img/crear_rutina.png" alt="Crear Rutina" style="height:50px;vertical-align:middle;margin-right:7px;">Crear Nueva Rutina</h2>
 
   <?php if ($mensaje): ?>
     <div class="alert alert-success"><?= $mensaje ?></div>

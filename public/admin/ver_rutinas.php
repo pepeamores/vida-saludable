@@ -57,7 +57,9 @@ foreach ($ejerciciosCol->find() as $e) {
 
 <div class="container py-5">
   <h2 class="mb-4 text-center"><img src="../img/fuerza.png" alt="Fuerza" style="height:40px;vertical-align:middle;margin-right:7px;">Rutinas Registradas</h2>
-
+  <div class="text-end mb-4">
+    <a href="crear_rutina.php" class="btn btn-success">Crear nueva rutina</a>
+  </div>
   <?php foreach ($rutinas as $rutina): ?>
     <div class="card mb-4 shadow-sm">
       <div class="card-body">
@@ -88,9 +90,7 @@ foreach ($ejerciciosCol->find() as $e) {
     </div>
   <?php endforeach; ?>
 
-  <div class="text-end mt-4">
-    <a href="crear_rutina.php" class="btn btn-success">Crear nueva rutina</a>
-  </div>
+  
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

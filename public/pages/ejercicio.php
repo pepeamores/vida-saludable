@@ -62,12 +62,24 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 
 
 <section class="container my-5 text-center">
-  <h2 class="mb-4"><img src="../img/brazo1.png" alt="Brazo fuerte" style="height: 33px; vertical-align: middle; margin-right: 7px;">Selecciona tu objetivo</h2>
-  <div class="btn-group mb-4" role="group">
-    <button class="btn btn-primary" onclick="mostrarRecomendacion('pérdida de peso')"><img src="../img/perdida_peso.png" alt="Pérdida de peso" style="height: 22px; vertical-align: middle; margin-right: 7px;">Pérdida de peso</button>
-    <button class="btn btn-secondary" onclick="mostrarRecomendacion('ganancia muscular')"><img src="../img/fuerza.png" alt="Ganancia muscular" style="height: 22px; vertical-align: middle; margin-right: 7px;">Ganancia muscular</button>
-    <button class="btn btn-light text-dark" onclick="mostrarRecomendacion('tonificación')"><img src="../img/fuerza.png" alt="Tonificación" style="height: 22px; vertical-align: middle; margin-right: 7px;">Tonificación</button>
-    <button class="btn btn-info text-white" onclick="mostrarRecomendacion('movilidad')"><img src="../img/flexibilidad.png" alt="Movilidad" style="height: 22px; vertical-align: middle; margin-right: 7px;">Movilidad y flexibilidad</button>
+  <h2 class="mb-4">Selecciona tu objetivo</h2>
+  <div class="d-flex justify-content-center flex-wrap gap-3 mb-4" id="objetivos-btns">
+  <button class="btn btn-white border objetivo-btn" onclick="mostrarRecomendacion('pérdida de peso', this)">
+    <img src="../img/perdida_peso.png" alt="Pérdida de peso" style="height: 22px; vertical-align: middle; margin-right: 7px;">
+    Pérdida de peso
+  </button>
+  <button class="btn btn-white border objetivo-btn" onclick="mostrarRecomendacion('ganancia muscular', this)">
+    <img src="../img/fuerza.png" alt="Ganancia muscular" style="height: 22px; vertical-align: middle; margin-right: 7px;">
+    Ganancia muscular
+  </button>
+  <button class="btn btn-white border objetivo-btn" onclick="mostrarRecomendacion('tonificación', this)">
+    <img src="../img/fuerza.png" alt="Tonificación" style="height: 22px; vertical-align: middle; margin-right: 7px;">
+    Tonificación
+  </button>
+  <button class="btn btn-white border objetivo-btn" onclick="mostrarRecomendacion('movilidad', this)">
+    <img src="../img/flexibilidad.png" alt="Movilidad" style="height: 22px; vertical-align: middle; margin-right: 7px;">
+    Movilidad y flexibilidad
+  </button>
   </div>
   <div class="mb-3">
     <label for="filtro-nivel" class="form-label">Filtrar por nivel:</label>
@@ -163,10 +175,12 @@ if (isset($_SESSION['altura']) && isset($_SESSION['peso'])) {
 <script>
 let objetivoSeleccionado = '';
 
-function mostrarRecomendacion(objetivo) {
+function mostrarRecomendacion(objetivo, btn) {
   objetivoSeleccionado = objetivo;
   const nivel = document.getElementById('filtro-nivel').value;
   cargarRutinas(objetivoSeleccionado, nivel);
+  document.querySelectorAll('.objetivo-btn').forEach(b => b.classList.remove('selected'));
+  if(btn) btn.classList.add('selected');
 }
 
 function filtrarPorNivel() {

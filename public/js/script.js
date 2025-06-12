@@ -1,20 +1,3 @@
-// Modo Oscuro - Alternar entre tema claro y oscuro
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-theme');
-    const isDarkMode = body.classList.contains('dark-theme');
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-});
-
-// Cargar el tema desde el localStorage
-window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-theme');
-    }
-});
 
 // Secciones Desplegables
 function toggleSection(sectionId) {
@@ -23,38 +6,32 @@ function toggleSection(sectionId) {
 }
 
 // Testimonios - Cambiar automáticamente
-const testimonies = [
-    { text: '"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."', author: 'Ana Pérez' },
-    { text: '"Hacer ejercicio regularmente ha transformado mi cuerpo y mi mente."', author: 'Carlos Gómez' },
-    { text: '"La meditación me ha dado claridad mental y paz interior."', author: 'Laura Fernández' },
-    { text: '"Dormir mejor y cuidar mi alimentación ha mejorado mi productividad cada día."', author: 'Marcos Díaz' },
-    { text: '"Gracias a una rutina constante de ejercicios, me siento más fuerte y saludable."', author: 'Valeria Ruiz' },
-    { text: '"Nunca imaginé que pequeños cambios diarios tuvieran un impacto tan grande."', author: 'Julián Torres' },
-    { text: '"Con la guía adecuada, he aprendido a escuchar lo que mi cuerpo necesita."', author: 'Sofía Morales' },
-    { text: '"Reducir el estrés con técnicas de respiración ha sido un antes y después para mí."', author: 'Natalia Herrera' },
-    { text: '"La combinación de buena nutrición y actividad física me devolvió la confianza."', author: 'Pedro Ramírez' },
-    { text: '"Estar saludable no es solo físico, también es sentirme bien conmigo mismo."', author: 'Lucía Méndez' }
-];
+document.addEventListener('DOMContentLoaded', function() {
+    const testimonies = [
+        { text: '"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."', author: 'Ana Pérez' },
+        { text: '"Hacer ejercicio regularmente ha transformado mi cuerpo y mi mente."', author: 'Carlos Gómez' },
+        { text: '"La meditación me ha dado claridad mental y paz interior."', author: 'Laura Fernández' },
+        { text: '"Dormir mejor y cuidar mi alimentación ha mejorado mi productividad cada día."', author: 'Marcos Díaz' },
+        { text: '"Gracias a una rutina constante de ejercicios, me siento más fuerte y saludable."', author: 'Valeria Ruiz' },
+        { text: '"Nunca imaginé que pequeños cambios diarios tuvieran un impacto tan grande."', author: 'Julián Torres' },
+        { text: '"Con la guía adecuada, he aprendido a escuchar lo que mi cuerpo necesita."', author: 'Sofía Morales' },
+        { text: '"Reducir el estrés con técnicas de respiración ha sido un antes y después para mí."', author: 'Natalia Herrera' },
+        { text: '"La combinación de buena nutrición y actividad física me devolvió la confianza."', author: 'Pedro Ramírez' },
+        { text: '"Estar saludable no es solo físico, también es sentirme bien conmigo mismo."', author: 'Lucía Méndez' }
+    ];
 
-let currentTestimonyIndex = 0;
-const testimonySlider = document.getElementById('testimony-slider');
+    let currentTestimonyIndex = 0;
+    const testimonySlider = document.getElementById('testimony-slider');
 
-function updateTestimony() {
-    const testimony = testimonies[currentTestimonyIndex];
-    testimonySlider.querySelector('.testimony-text').textContent = testimony.text;
-    testimonySlider.querySelector('.testimony-author').textContent = testimony.author;
-    currentTestimonyIndex = (currentTestimonyIndex + 1) % testimonies.length;
-}
+    if (testimonySlider) {
+        function updateTestimony() {
+            const testimony = testimonies[currentTestimonyIndex];
+            testimonySlider.querySelector('.testimony-text').textContent = testimony.text;
+            testimonySlider.querySelector('.testimony-author').textContent = testimony.author;
+            currentTestimonyIndex = (currentTestimonyIndex + 1) % testimonies.length;
+        }
 
-setInterval(updateTestimony, 5000); // Cambiar cada 5 segundos
-function mostrarRecomendacion(objetivo) {
-  fetch(`cargar_rutinas.php?objetivo=${encodeURIComponent(objetivo)}`)
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById('rutinas-container').innerHTML = html;
-    })
-    .catch(err => {
-      console.error("Error al cargar rutinas:", err);
-      document.getElementById('rutinas-container').innerHTML = "<p class='text-danger'>No se pudieron cargar las rutinas.</p>";
-    });
-}
+        updateTestimony();
+        setInterval(updateTestimony, 5000); // Cambiar cada 5 segundos
+    }
+});
