@@ -87,17 +87,27 @@
 
                     <h6 class="mb-2">Ejercicios incluidos:</h6>
                     <ul class="list-group">
-                        {% for id in rutina.ejercicios %}
-                            {% set ejercicio = ejercicios_map[id] ?? null %}
-                            {% if ejercicio %}
-                                <li class="list-group-item">
-                                    <strong>{{ ejercicio.nombre }}</strong> – {{ ejercicio.repeticiones }} ({{ ejercicio.nivel }})
-                                </li>
-                            {% else %}
-                                <li class="list-group-item text-danger">⚠️ Ejercicio no encontrado: {{ id }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                    {% for id in rutina.ejercicios %}
+                        {% set ejercicio = ejercicios_map[id] ?? null %}
+                        {% if ejercicio %}
+                            <li class="list-group-item">
+                                <a href="#" class="ejercicio-link"
+                                  data-nombre="{{ ejercicio.nombre }}"
+                                  data-descripcion="{{ ejercicio.descripcion|default('') }}"
+                                  data-nivel="{{ ejercicio.nivel|default('') }}"
+                                  data-repeticiones="{{ ejercicio.repeticiones|default('') }}"
+                                  data-grupo="{{ ejercicio.grupo_muscular|default('') }}"
+                                  data-duracion="{{ ejercicio.duracion|default('') }}"
+                                  data-video="{{ ejercicio.video|default('') }}">
+                                    <strong>{{ ejercicio.nombre }}</strong>
+                                </a>
+                                – {{ ejercicio.repeticiones }} ({{ ejercicio.nivel }})
+                            </li>
+                        {% else %}
+                            <li class="list-group-item text-danger">⚠️ Ejercicio no encontrado: {{ id }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
                 </div>
             </div>
         {% endfor %}
@@ -153,8 +163,6 @@
   </form>
 </section>
 
-
-
 <div class="container my-4 text-center">
     <button class="btn btn-info" id="btn-graficas-ejercicio" onclick="toggleGraficasEjercicio()">
         <img src="{{ asset('img/graficas1.png') }}" alt="Gráfica" style="height:24px;vertical-align:middle;margin-right:7px;">
@@ -171,7 +179,6 @@
     <div class="col-md-6 mb-4">
     <canvas id="graficaTiposEntrenamiento"></canvas>
     </div>
-
   </div>
 </section>
 
@@ -192,8 +199,6 @@
 </footer>
 
 <script>
-{# DEBUG TEMPORAL - eliminar luego #}
-{# <pre>{{ graficas|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre> #}
 function toggleSelect(i) {
   const check = document.getElementById('entrenado' + i);
   const select = document.getElementById('tipo_ejercicio' + i);
@@ -212,7 +217,33 @@ window.addEventListener('DOMContentLoaded', () => {
   for (let i = 0; i < 7; i++) {
     toggleSelect(i);
   }
+
+  // Evento para los enlaces de ejercicios (modal)
+  document.querySelectorAll('.ejercicio-link').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const nombre = this.dataset.nombre;
+          const descripcion = this.dataset.descripcion;
+          const nivel = this.dataset.nivel;
+          const repeticiones = this.dataset.repeticiones;
+          const grupo = this.dataset.grupo;
+          const duracion = this.dataset.duracion;
+          const video = this.dataset.video;
+
+          document.getElementById('modalEjercicioTitulo').textContent = nombre;
+          document.getElementById('modalEjercicioContenido').innerHTML = `
+              <p><strong>Descripción:</strong> ${descripcion}</p>
+              <p><strong>Nivel:</strong> ${nivel}</p>
+              <p><strong>Grupo muscular:</strong> ${grupo}</p>
+              <p><strong>Repeticiones:</strong> ${repeticiones}</p>
+              <p><strong>Duración aproximada:</strong> ${duracion} minutos</p>
+              ${video ? `<div class="ratio ratio-16x9 mt-3"><iframe src="${video}" title="Video del ejercicio" allowfullscreen></iframe></div>` : ''}
+          `;
+          new bootstrap.Modal(document.getElementById('modalEjercicio')).show();
+      });
+  });
 });
+
 let chartDiasSemana = null;
 let chartTiposEntrenamiento = null;
 let chartFrecuenciaDia = null;
@@ -247,22 +278,7 @@ function mostrarGraficas() {
       }]
     }
   });
-
-  // Frecuencia por día
-  chartFrecuenciaDia = new Chart(document.getElementById('graficaFrecuenciaDia'), {
-    type: 'line',
-    data: {
-      labels: Object.keys(dataGraficas.frecuenciaPorDia),
-      datasets: [{
-        label: 'Frecuencia',
-        data: Object.values(dataGraficas.frecuenciaPorDia),
-        borderColor: 'rgba(255, 99, 132, 1)',
-        tension: 0.3,
-        fill: false
-      }]
-    },
-    options: { scales: { y: { beginAtZero: true } } }
-  });
+  // Si tienes más gráficas, añádelas aquí
 }
 
 function toggleGraficasEjercicio() {
