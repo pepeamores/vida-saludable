@@ -1,0 +1,13 @@
+<h2>Rutinas para perder peso</h2>
+
+{% for rutina in rutinas %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ rutina.titulo }}</h5>
+            <p><strong>Nivel:</strong> {{ rutina.nivel }}</p>
+            <p><strong>Duración:</strong> {{ rutina.duracion_total_min }} minutos</p>
+        </div>
+    </div>
+{% else %}
+    <p>No se encontraron rutinas.</p>
+{% endfor %}

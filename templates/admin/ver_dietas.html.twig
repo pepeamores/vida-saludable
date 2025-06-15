@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ver Dietas - Admin{% endblock %}
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+{% block body %}
+<div class="position-fixed top-0 start-0 m-3">
+  <a href="{{ path('admin_panel') }}" class="btn btn-primary">Volver</a>
+</div>
+
+<header class="header text-center">
+  <div class="header-content">
+    <h1>Dietas Guardadas</h1>
+    <p>Visualiza y gestiona todas las dietas creadas en Vida Saludable.</p>
+  </div>
+</header>
+
+<div class="container py-5">
+  <h2 class="mb-4 text-center"><img src="{{ asset('img/veradmin.png') }}" alt="Dietas" style="height:40px;vertical-align:middle;margin-right:7px;">Dietas</h2>
+  <div class="text-end mb-4">
+    <a href="{{ path('admin_crear_dieta') }}" class="btn btn-success">Crear nueva dieta</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered bg-white shadow rounded" style="border-radius: 18px; overflow: hidden;">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Alimentos</th>
+          <th>Calorías</th>
+          <th>Objetivo</th>
+          <th>Cantidad de ejercicio</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for dieta in dietas %}
+        <tr>
+          <td>{{ dieta.nombre|e }}</td>
+          <td>
+            {% if dieta.alimentos is iterable %}
+              {% for alimento in dieta.alimentos %}
+                {{ alimento.nombre|default(alimento)|e }}
+                {% if alimento.cantidad_gramos is defined %} ({{ alimento.cantidad_gramos }}g){% endif %}
+                <br>
+              {% endfor %}
+            {% else %}
+              {{ dieta.alimentos|e }}
+            {% endif %}
+          </td>
+          <td>{{ dieta.calorias }}</td>
+          <td>{{ objetivoMap[dieta.objetivo]|default(dieta.objetivo) }}</td>
+          <td>{{ ejercicioMap[dieta.ejercicio]|default(dieta.ejercicio) }}</td>
+          <td class="text-center">
+              <a href="{{ path('admin_editar_dieta', {'id': dieta._id}) }}" class="btn btn-warning btn-sm d-inline-flex align-items-center me-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil me-1" viewBox="0 0 16 16">
+                      <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-4 1.5a.5.5 0 0 1-.65-.65l1.5-4a.5.5 0 0 1 .11-.168l10-10zm.708-.708a1.5 1.5 0 0 0-2.121 0l-10 10a1.5 1.5 0 0 0-.328.497l-1.5 4A1.5 1.5 0 0 0 2.5 16a1.5 1.5 0 0 0 .497-.328l4-1.5a1.5 1.5 0 0 0 .497-.328l10-10a1.5 1.5 0 0 0 0-2.121l-2.292-2.292z"/>
+                  </svg>
+                  Editar
+              </a>
+              <form method="post" action="{{ path('admin_eliminar_dieta', {'id': dieta._id}) }}" onsubmit="return confirm('¿Seguro que quieres eliminar esta dieta?');" style="display:inline;">
+                  <button type="submit" class="btn btn-danger btn-sm d-inline-flex align-items-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash me-1" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-7zm1 .5v6h2v-6h-2z"/>
+                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1H14a1 1 0 0 1 1 1zm-11 1v9a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4h-8z"/>
+                      </svg>
+                      Eliminar
+                  </button>
+              </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

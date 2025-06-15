@@ -1,0 +1,288 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ejercicio Físico{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<header class="header position-relative">
+    {% if datos.nombre %}
+        <div class="dropdown position-absolute top-0 end-0 m-3">
+            <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                <img src="{{ asset('img/pefil.png') }}" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
+                {{ datos.nombre }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="header-content text-center">
+        <h1>Ejercicio Físico</h1>
+        <p>Transforma tu cuerpo y mente con rutinas adaptadas a tus metas.</p>
+    </div>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="{{ path('main_inicio') }}">Inicio</a></li>            
+            <li><a href="{{ path('alimentacion') }}">Alimentación Saludable</a></li>
+            <li><a href="{{ path('salud_mental') }}">Salud Mental</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="container my-5 text-center">
+    <h2 class="mb-4">Selecciona tu objetivo</h2>
+    <form method="get" action="{{ path('ejercicio') }}">
+        {% if objetivo_actual is defined and objetivo_actual %}
+            <input type="hidden" name="objetivo" value="{{ objetivo_actual }}">
+        {% endif %}
+        {% if nivel_actual is defined %}
+            <input type="hidden" name="nivel" value="{{ nivel_actual }}">
+        {% endif %}
+        <div class="d-flex justify-content-center flex-wrap gap-3 mb-4">
+            {% set opciones = {
+                'pérdida de peso': 'perdida_peso.png',
+                'ganancia muscular': 'fuerza.png',
+                'tonificación': 'fuerza.png',
+                'movilidad': 'flexibilidad.png'
+            } %}
+            {% for objetivo, img in opciones %}
+                <button type="submit" name="objetivo" value="{{ objetivo }}" class="btn btn-white border objetivo-btn">
+                    <img src="{{ asset('img/' ~ img) }}" alt="{{ objetivo }}" style="height: 22px; vertical-align: middle; margin-right: 7px;">
+                    {{ objetivo|capitalize }}
+                </button>
+            {% endfor %}
+        </div>
+        {% if objetivo_actual is defined and objetivo_actual %}
+            <div class="mb-3">
+                <label for="filtro-nivel" class="form-label">Filtrar por nivel:</label>
+                <select name="nivel" id="filtro-nivel" class="form-select w-auto d-inline-block">
+                    <option value="">Todos</option>
+                    <option value="principiante" {% if nivel_actual == 'principiante' %}selected{% endif %}>Principiante</option>
+                    <option value="intermedio" {% if nivel_actual == 'intermedio' %}selected{% endif %}>Intermedio</option>
+                    <option value="avanzado" {% if nivel_actual == 'avanzado' %}selected{% endif %}>Avanzado</option>
+                </select>
+                <button type="submit" class="btn btn-success ms-2">Aplicar filtro</button>
+            </div>
+        {% endif %}
+    </form>
+</section>
+
+{% if objetivo_actual is defined and objetivo_actual %}
+<section class="container my-5">
+    <h2 class="mb-4 text-center">Rutinas para: {{ objetivo_actual }}</h2>
+
+    {% if rutinas is not empty %}
+        {% for rutina in rutinas %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ rutina.titulo }}</h5>
+                    <p class="mb-1"><strong>Nivel:</strong> {{ rutina.nivel }}</p>
+                    <p class="mb-3"><strong>Duración:</strong> {{ rutina.duracion_total_min }} minutos</p>
+
+                    <h6 class="mb-2">Ejercicios incluidos:</h6>
+                    <ul class="list-group">
+                        {% for id in rutina.ejercicios %}
+                            {% set ejercicio = ejercicios_map[id] ?? null %}
+                            {% if ejercicio %}
+                                <li class="list-group-item">
+                                    <strong>{{ ejercicio.nombre }}</strong> – {{ ejercicio.repeticiones }} ({{ ejercicio.nivel }})
+                                </li>
+                            {% else %}
+                                <li class="list-group-item text-danger">⚠️ Ejercicio no encontrado: {{ id }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center text-muted">No se encontraron rutinas con ese objetivo.</p>
+    {% endif %}
+</section>
+{% endif %}
+
+<section class="container my-5">
+  <h2 class="mb-4">
+    <img src="{{ asset('img/calendario.png') }}" alt="Calendario" style="height: 37px; vertical-align: middle; margin-right: 7px;">
+    Tu calendario de entrenamiento
+  </h2>
+  <form method="post" action="{{ path('guardar_calendario') }}">
+    <table class="table table-bordered table-hover bg-white shadow rounded" style="border-radius: 18px; overflow: hidden;">
+      <thead class="table-light">
+        <tr>
+          <th>Día</th>
+          <th>¿Entrenaste?</th>
+          <th>¿Qué hiciste?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% set dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'] %}
+        {% for i, dia in dias %}
+        <tr>
+          <td><strong>{{ dia }}</strong></td>
+          <td class="text-center">
+            <input type="checkbox" class="form-check-input" name="entrenado[{{ i }}]" value="1" id="entrenado{{ i }}" onchange="toggleSelect({{ i }})">
+          </td>
+          <td>
+            <select name="notas[{{ i }}]" id="tipo_ejercicio{{ i }}" class="form-select" disabled>
+              <option value="">Selecciona</option>
+              <option value="pecho">Pecho</option>
+              <option value="hombros">Hombros</option>
+              <option value="abdominales">Abdominales</option>
+              <option value="cardio">Cardio</option>
+              <option value="biceps">Bíceps</option>
+              <option value="triceps">Tríceps</option>
+              <option value="piernas">Piernas</option>
+              <option value="espalda">Espalda</option>
+              <option value="otros">Otros</option>
+            </select>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="text-end">
+      <button class="btn btn-success" type="submit">Guardar semana</button>
+    </div>
+  </form>
+</section>
+
+
+
+<div class="container my-4 text-center">
+    <button class="btn btn-info" id="btn-graficas-ejercicio" onclick="toggleGraficasEjercicio()">
+        <img src="{{ asset('img/graficas1.png') }}" alt="Gráfica" style="height:24px;vertical-align:middle;margin-right:7px;">
+        Mostrar gráficas
+    </button>
+</div>
+
+<section class="container my-5" id="seccion-graficas" style="display:none;">
+  <h2 class="mb-4 text-center">Análisis de tu Progreso</h2>
+  <div class="row">
+    <div class="col-md-6 mb-4">
+    <canvas id="graficaDiasSemana"></canvas>
+    </div>
+    <div class="col-md-6 mb-4">
+    <canvas id="graficaTiposEntrenamiento"></canvas>
+    </div>
+
+  </div>
+</section>
+
+<div class="modal fade" id="modalEjercicio" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEjercicioTitulo">Ejercicio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="modalEjercicioContenido">Cargando...</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Vida Saludable. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+{# DEBUG TEMPORAL - eliminar luego #}
+{# <pre>{{ graficas|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre> #}
+function toggleSelect(i) {
+  const check = document.getElementById('entrenado' + i);
+  const select = document.getElementById('tipo_ejercicio' + i);
+  if (check.checked) {
+    select.disabled = false;
+    select.required = true;
+  } else {
+    select.disabled = true;
+    select.required = false;
+    select.value = "";
+  }
+}
+
+// Inicializa los selects al cargar
+window.addEventListener('DOMContentLoaded', () => {
+  for (let i = 0; i < 7; i++) {
+    toggleSelect(i);
+  }
+});
+let chartDiasSemana = null;
+let chartTiposEntrenamiento = null;
+let chartFrecuenciaDia = null;
+
+const dataGraficas = {{ graficas|json_encode|raw }};
+
+function mostrarGraficas() {
+  // Dias entrenados
+  const semanas = dataGraficas.diasEntrenados.map(d => d.semana);
+  const entrenamientos = dataGraficas.diasEntrenados.map(d => d.entrenamientos);
+  chartDiasSemana = new Chart(document.getElementById('graficaDiasSemana'), {
+    type: 'bar',
+    data: {
+      labels: semanas,
+      datasets: [{
+        label: 'Días entrenados',
+        data: entrenamientos,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)'
+      }]
+    },
+    options: { scales: { y: { beginAtZero: true, max: 7 } } }
+  });
+
+  // Tipos de entrenamiento
+  chartTiposEntrenamiento = new Chart(document.getElementById('graficaTiposEntrenamiento'), {
+    type: 'pie',
+    data: {
+      labels: Object.keys(dataGraficas.tiposEntrenamiento),
+      datasets: [{
+        data: Object.values(dataGraficas.tiposEntrenamiento),
+        backgroundColor: ['#ff6384','#36a2eb','#ffce56','#4caf50','#9c27b0']
+      }]
+    }
+  });
+
+  // Frecuencia por día
+  chartFrecuenciaDia = new Chart(document.getElementById('graficaFrecuenciaDia'), {
+    type: 'line',
+    data: {
+      labels: Object.keys(dataGraficas.frecuenciaPorDia),
+      datasets: [{
+        label: 'Frecuencia',
+        data: Object.values(dataGraficas.frecuenciaPorDia),
+        borderColor: 'rgba(255, 99, 132, 1)',
+        tension: 0.3,
+        fill: false
+      }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+  });
+}
+
+function toggleGraficasEjercicio() {
+  const seccion = document.getElementById('seccion-graficas');
+  const btn = document.getElementById('btn-graficas-ejercicio');
+  const icono = '<img src="{{ asset('img/graficas1.png') }}" alt="Gráfica" style="height:24px;vertical-align:middle;margin-right:7px;">';
+  if (seccion.style.display === 'block') {
+    seccion.style.display = 'none';
+    btn.innerHTML = icono + 'Mostrar gráficas';
+    if (chartDiasSemana) { chartDiasSemana.destroy(); chartDiasSemana = null; }
+    if (chartTiposEntrenamiento) { chartTiposEntrenamiento.destroy(); chartTiposEntrenamiento = null; }
+    if (chartFrecuenciaDia) { chartFrecuenciaDia.destroy(); chartFrecuenciaDia = null; }
+  } else {
+    seccion.style.display = 'block';
+    btn.innerHTML = icono + 'Ocultar gráficas';
+    mostrarGraficas();
+  }
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset('js/ejercicio.js') }}"></script>
+{% endblock %}

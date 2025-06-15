@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Rutina - Admin{% endblock %}
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+{% block body %}
+<div class="position-fixed top-0 start-0 m-3">
+  <a href="{{ path('admin_ver_rutinas') }}" class="btn btn-primary">Volver</a>
+</div>
+
+<header class="header text-center">
+  <div class="header-content">
+    <h2>Editar Rutina</h2>
+    <p>Modifica los datos de la rutina.</p>
+  </div>
+</header>
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Editar Rutina</h2>
+
+    {% if mensaje %}
+        <div class="alert alert-info">{{ mensaje }}</div>
+    {% endif %}
+
+    <form method="post" class="bg-white p-4 rounded shadow" style="max-width: 700px; margin: 0 auto;">
+        <div class="mb-3">
+            <label class="form-label">Título de la rutina</label>
+            <input type="text" name="titulo" class="form-control" value="{{ rutina.titulo }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Objetivo</label>
+            <select name="objetivo" class="form-select" required>
+                {% for op in ['pérdida de peso', 'ganancia muscular', 'tonificación', 'movilidad'] %}
+                    <option value="{{ op }}" {{ rutina.objetivo == op ? 'selected' : '' }}>{{ op }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Nivel</label>
+            <select name="nivel" class="form-select" required>
+                {% for nivel in ['principiante', 'intermedio', 'avanzado'] %}
+                    <option value="{{ nivel }}" {{ rutina.nivel == nivel ? 'selected' : '' }}>{{ nivel }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Duración total (min)</label>
+            <input type="number" name="duracion" class="form-control" value="{{ rutina.duracion_total_min }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Ejercicios incluidos</label>
+            <div class="border rounded p-3" style="max-height: 300px; overflow-y: auto;">
+                {% set idsSeleccionados = rutina.ejercicios|map(v => v ~ '')|default([]) %}
+                {% for e in ejercicios %}
+                    {% set idEj = e._id ~ '' %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="ejercicios[]" value="{{ idEj }}"
+                            {{ idEj in idsSeleccionados ? 'checked' : '' }}>
+                        <label class="form-check-label">
+                            {{ e.nombre|e }}
+                            <small class="text-muted">({{ e.nivel }} - {{ e.grupo_muscular|default('sin grupo') }})</small>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Guardar cambios</button>
+    </form>
+</div>
+{% endblock %}

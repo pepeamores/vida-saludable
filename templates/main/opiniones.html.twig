@@ -1,0 +1,13 @@
+<h2>Opiniones de usuarios</h2>
+
+{% for op in opiniones %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ op.nombre }}</h5>
+            <p><strong>Puntuación:</strong> {{ op.puntuacion }}/10</p>
+            <p>{{ op.comentario }}</p>
+        </div>
+    </div>
+{% else %}
+    <p>No hay opiniones disponibles.</p>
+{% endfor %}

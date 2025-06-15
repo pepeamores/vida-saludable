@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro - Vida Saludable{% endblock %}
+
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 1s ease-in-out;
+        }
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .btn {
+            min-width: 150px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="overlay-content">
+    <h1 class="mb-4">Registro en Vida Saludable</h1>
+    <form method="post" style="max-width: 300px; margin: 0 auto;">
+        {% if mensaje %}
+            <div class="alert {{ '✅' in mensaje ? 'alert-success' : 'alert-warning' }}">{{ mensaje }}</div>
+        {% endif %}
+        <div class="mb-3">
+            <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="apellidos" class="form-control" placeholder="Apellidos" required>
+        </div>
+        <div class="mb-3">
+            <input type="date" name="fecha_nacimiento" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <input type="number" step="0.01" name="altura" class="form-control" placeholder="Altura (cm)" required>
+        </div>
+        <div class="mb-3">
+            <input type="number" step="0.1" name="peso" class="form-control" placeholder="Peso (kg)" required>
+        </div>
+        <div class="mb-3">
+            <select name="sexo" class="form-control" required>
+                <option value="">Selecciona tu sexo</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Correo electrónico" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="usuario" class="form-control" placeholder="Nombre de usuario" required>
+        </div>
+        <div class="mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Registrarse</button>
+        <div class="text-center mt-3">
+            <a href="{{ path('app_login') }}" class="text-white">¿Ya tienes cuenta? Inicia sesión</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const images = [
+        '{{ asset("img/fitness.jpg") }}',
+        '{{ asset("img/yoga.jpg") }}',
+        '{{ asset("img/comida.jpg") }}'
+    ];
+    let index = 0;
+    function changeBackground() {
+        document.body.style.backgroundImage = `url(${images[index]})`;
+        index = (index + 1) % images.length;
+    }
+    changeBackground();
+    setInterval(changeBackground, 5000);
+</script>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vida Saludable{% endblock %}
+
+    {% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {% endblock %}
+
+{% block body %}
+
+
+<header class="header position-relative">
+    {% if datos.nombre %}
+        <div class="dropdown position-absolute top-0 end-0 m-3">
+            <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                <img src="{{ asset('img/pefil.png') }}" alt="Perfil" width="32" height="32" class="rounded-circle me-2">
+                {{ datos.nombre }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="header-content text-center">
+        <h1>Vida Saludable</h1>
+        <p>Descubre cómo mejorar tu salud física, mental y emocional a través de hábitos saludables.</p>
+
+    </div>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="{{ path('alimentacion') }}">Alimentación Saludable</a></li>
+            <li><a href="{{ path('ejercicio') }}">Ejercicio Físico</a></li>
+            <li><a href="{{ path('salud_mental') }}">Salud Mental</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="interactive-sections">
+    <section class="as highlight d-flex flex-wrap justify-content-center align-items-center">
+        {% if datos.user_id %}
+        <div class="user-info text-start bg-white p-4 rounded shadow me-4" style="max-width: 300px;">
+            <h4 class="text-success mb-3">
+                <img src="{{ asset('img/perfil2.png') }}" alt="Perfil2"
+                    style="height:40px;width:40px;vertical-align:middle;margin-right:7px;">
+                Tu perfil
+            </h4>
+            <form method="POST" action="{{ path('actualizar_datos') }}" id="form-perfil">
+                <p><strong>Nombre:</strong> {{ datos.nombre ~ ' ' ~ datos.apellidos }}</p>
+                <p><strong>Edad:</strong> {{ datos.edad is defined ? datos.edad ~ ' ' : 'No especificada' }}</p>
+
+                <div class="mb-2">
+                    <label><strong>Altura:</strong></label>
+                    <p id="texto-altura">{{ datos.altura }} m</p>
+                </div>
+
+                <div class="mb-2">
+                    <label><strong>Peso:</strong></label>
+                    <p id="texto-peso">{{ datos.peso }} kg</p>
+                </div>
+
+                <p><strong>Sexo:</strong> {{ datos.sexo }}</p>
+                <p><strong>Email:</strong> {{ datos.email }}</p>
+                <p><strong>Usuario:</strong> {{ datos.usuario }}</p>
+
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-editar">Editar</button>
+                <button type="submit" class="btn btn-primary btn-sm d-none" id="btn-guardar">Guardar</button>
+            </form>
+        </div>
+        {% endif %}
+
+
+        <img src="{{ asset('img/health.png') }}" alt="Vida saludable" class="img-fluid" style="max-width: 400px; border-radius: 10px;">
+
+        <div class="highlight-text ms-4 mt-4 mt-md-0">
+            <h2>Alimentate bien desde HOY</h2>
+            <p>La clave de una vida plena y larga es cuidar tanto del cuerpo como de la mente. Aquí aprenderás cómo hacerlo.</p>
+            <a href="{{ path('alimentacion') }}" class="cta-button btn btn-success">Descubre Más</a>
+        </div>
+    </section>
+<section class="container my-5">
+<div class="row g-4 justify-content-center">
+    <div class="col-md-6">
+        <div class="d-flex flex-column align-items-center justify-content-center p-4 bg-light rounded shadow h-100">
+            <img src="{{ asset('img/fitness.jpg') }}" alt="Ejercicio Físico" class="img-fluid rounded mb-3" style="max-width: 300px;">
+            <div class="text-center">
+                <h2 class="h5 text-success">¡Actívate con Ejercicio Físico!</h2>
+                <p>Conoce las mejores rutinas para mantenerte en forma, mejorar tu salud cardiovascular y fortalecer tus músculos.</p>
+                <a href="{{ path('ejercicio') }}" class="btn btn-success">Ver Rutinas</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="d-flex flex-column align-items-center justify-content-center p-4 bg-light rounded shadow h-100">
+            <img src="{{ asset('img/yoga.jpg') }}" alt="Salud Mental" class="img-fluid rounded mb-3" style="max-width: 300px;">
+            <div class="text-center">
+                <h2 class="h5 text-success">Salud Mental</h2>
+                <p>Aprende técnicas para cuidar de tu bienestar mental y emocional.</p>
+                <a href="{{ path('salud_mental') }}" class="btn btn-success">Descubre Más</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+</section>
+
+{% if datos.user_id %}
+<section class="container my-5">
+    <h3 class="text-center mb-4 d-flex justify-content-center align-items-center gap-2">
+        <img src="{{ asset('img/valoracion_pagina.png') }}" alt="Valoracion" style="height:45px;">
+        <span class="fw-bold text-success">Danos tu opinión</span>
+    </h3>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form method="post" action="{{ path('guardar_opinion') }}" class="bg-white p-4 rounded shadow-sm border">
+                <div class="mb-3">
+                    <label for="puntuacion" class="form-label">Valoración general (1 a 10)</label>
+                    <input type="number" name="puntuacion" id="puntuacion" min="1" max="10" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="comentario" class="form-label">Comentario</label>
+                    <textarea name="comentario" id="comentario" rows="4" class="form-control" placeholder="¿En qué podemos mejorar?" required></textarea>
+                </div>
+                <div class="text-end">
+                    <button class="btn btn-success">Enviar opinión</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+
+<footer>
+    <section class="testimonios">
+        <h2>Testimonios</h2>
+        <div id="testimony-slider">
+            <p class="testimony-text">"Cambiar mis hábitos alimenticios me ha hecho sentir con más energía y vitalidad."</p>
+            <p class="testimony-author">- Ana Pérez</p>
+        </div>
+    </section>
+    <p>&copy; 2025 Vida Saludable. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ asset('js/script.js') }}"></script>
+<script>
+document.getElementById('btn-editar')?.addEventListener('click', function () {
+    const alturaValor = "{{ datos.altura }}";
+    const pesoValor = "{{ datos.peso }}";
+
+    // Crear campo de altura
+    const alturaInput = document.createElement('input');
+    alturaInput.type = "number";
+    alturaInput.name = "altura";
+    alturaInput.step = "0.01";
+    alturaInput.required = true;
+    alturaInput.className = "form-control";
+    alturaInput.value = alturaValor;
+
+    // Crear campo de peso
+    const pesoInput = document.createElement('input');
+    pesoInput.type = "number";
+    pesoInput.name = "peso";
+    pesoInput.step = "0.1";
+    pesoInput.required = true;
+    pesoInput.className = "form-control";
+    pesoInput.value = pesoValor;
+
+    // Insertarlos en el formulario
+    const alturaContainer = document.getElementById('texto-altura').parentNode;
+    const pesoContainer = document.getElementById('texto-peso').parentNode;
+
+    alturaContainer.appendChild(alturaInput);
+    pesoContainer.appendChild(pesoInput);
+
+    // Ocultar el texto
+    document.getElementById('texto-altura').classList.add('d-none');
+    document.getElementById('texto-peso').classList.add('d-none');
+
+    // Botones
+    this.classList.add('d-none');
+    document.getElementById('btn-guardar').classList.remove('d-none');
+});
+</script>
+{% endblock %}
